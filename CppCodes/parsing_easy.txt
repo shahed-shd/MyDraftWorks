@@ -1,0 +1,37 @@
+template<class T>
+    inline T fastIn() {
+    register char c=0;
+    register T a=0;
+    bool neg=false;
+    while ( c<33 ) c=getchar();
+    while ( c>33 ) {
+        if ( c=='-' ) {
+            neg=true;
+        } else {
+            a= ( a*10 ) + ( c-'0' );
+        }
+        c=getchar();
+    }
+    return neg?-a:a;
+}
+
+
+
+
+template<class T>
+inline T fastIn()
+{
+    register char c = 0;
+    register T a = 0;
+    bool neg = false;
+
+    while(c < 33) c = getchar();
+
+    if(c == '-') neg = true;
+    else a = c - '0';
+
+    while(c = getchar(), c > 33)
+        a = a * 10 + (c - '0');
+
+    return (neg? -a : a);
+}
