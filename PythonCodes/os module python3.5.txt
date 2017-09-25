@@ -1,0 +1,89 @@
+Python 3.5.2 (default, Nov 17 2016, 17:05:23) 
+[GCC 5.4.0 20160609] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> 
+>>> import os
+>>> 
+>>> os.uname()
+posix.uname_result(sysname='Linux', nodename='shahed-HP-ProBook-4540s', release='4.8.0-45-generic', version='#48~16.04.1-Ubuntu SMP Fri Mar 24 12:46:56 UTC 2017', machine='x86_64')
+>>> 
+>>> os.get_terminal_size()
+os.terminal_size(columns=168, lines=18)
+>>> 
+>>> os.chdir
+<built-in function chdir>
+>>> 
+>>> os.chroot
+<built-in function chroot>
+>>> 
+>>> os.getcwd()
+'/home/shahed/Desktop/MyWorks/pythonPractice'
+>>> 
+>>> os.getcwdb()
+b'/home/shahed/Desktop/MyWorks/pythonPractice'
+>>> 
+>>> os.listdir()
+['input.txt', 'Learning tkinter', 'output.txt', 'Learning python.txt', 'OJ.py', 'pyimg.png', 'hello.py', 'Learning kivy', 'resource_test.py', 'hello2.py', 'do.py']
+>>> 
+>>> os.lstat('.')
+os.stat_result(st_mode=16895, st_ino=3542947, st_dev=2050, st_nlink=4, st_uid=1000, st_gid=1000, st_size=4096, st_atime=1491427917, st_mtime=1487882670, st_ctime=1487882670)
+>>> 
+>>> os.system('ls -al')
+total 56
+drwxrwxrwx  4 shahed shahed 4096 Feb 24 02:44 .
+drwxrwxrwx 10 shahed shahed 4096 Apr  4 02:15 ..
+-rwxrwxrwx  1 shahed shahed  416 Oct 12 13:21 do.py
+0
+>>> 
+>>> os.mkdir('emni')
+>>> 
+>>> os.system('ls -al')
+total 60
+drwxrwxrwx  5 shahed shahed 4096 Apr  6 03:56 .
+drwxrwxrwx 10 shahed shahed 4096 Apr  4 02:15 ..
+-rwxrwxrwx  1 shahed shahed  416 Oct 12 13:21 do.py
+drwxr-xr-x  2 shahed shahed 4096 Apr  6 03:56 emni
+0
+>>> 
+>>> os.makedirs
+<function makedirs at 0x7fe3ff095b70>
+>>> 
+>>> os.remove
+<built-in function remove>
+>>> 
+>>> os.removedirs
+<function removedirs at 0x7fe3ff03dc80>
+>>> 
+>>> os.rename
+<built-in function rename>
+>>> 
+>>> os.renames
+<function renames at 0x7fe3ff03dd08>
+>>> 
+>>> os.replace
+<built-in function replace>
+>>> 
+>>> os.rmdir
+<built-in function rmdir>
+>>> 
+>>> os.scandir
+<built-in function scandir>
+>>>
+>>> os.stat
+<built-in function stat>
+>>>
+>>> os.truncate
+<built-in function truncate>
+>>>
+>>> os.unlink
+<built-in function unlink>
+>>>
+>>> os.utime
+<built-in function utime>
+>>>
+>>> os.walk
+<function walk at 0x7fe3ff03dd90>
+>>>
+>>> os.cpu_count()
+4
+>>>
