@@ -4,39 +4,39 @@
 // Language :   C++11
 // ==================================================
 
-#include <cstdio>
+#include <iostream>
+#include <vector>
 using namespace std;
 
 int main()
 {
-    const int SZ = 6;
-    double notes_frac[SZ] = {100, 50, 20, 10, 5, 2};
-    double coins_frac[SZ] = {1, 0.50, 0.25, 0.10, 0.05, 0.01};
+    ios::sync_with_stdio(false);
 
-    int notes[SZ], coins[SZ];
+    //freopen("in.txt", "r", stdin);
 
-    for(int i = 0; i < SZ; ++i) {
-        notes[i] = notes_frac[i] * 100;
-        coins[i] = coins_frac[i] * 100;
-    }
+    int t;
+    cin >> t;
 
-    double val_farction;
-    scanf("%lf", &val_farction);
+    for(int tc = 1; tc <= t; ++tc) {
+        vector<string> V;
+        string s;
+        int val, max_val = 0;
 
-    int val = val_farction * 100;
+        for(int i = 0; i < 10; ++i) {
+            cin >> s >> val;
+            if(val > max_val) {
+                V.clear();
+                V.push_back(s);
+                max_val = val;
+            }
+            else if(val == max_val) {
+                V.push_back(s);
+            }
+        }
 
-    puts("NOTAS:");
+        cout << "Case #" << tc << ":\n";
 
-    for(int i = 0; i < SZ; ++i) {
-        printf("%d nota(s) de R$ %.2f\n", val / notes[i], notes_frac[i]);
-        val %= notes[i];
-    }
-
-    puts("MOEDAS:");
-
-    for(int i = 0; i < SZ; ++i) {
-        printf("%d moeda(s) de R$ %.2f\n", val / coins[i], coins_frac[i]);
-        val %= coins[i];
+        for(auto &url : V) cout << url << "\n";
     }
 
     return 0;
