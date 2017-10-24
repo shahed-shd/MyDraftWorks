@@ -1,42 +1,55 @@
 // ==================================================
-// Problem  :   1021 - Banknotes and Coins
+// Problem  :   12700 - Banglawash
 // Run time :   0.000 sec.
 // Language :   C++11
 // ==================================================
 
-#include <iostream>
-#include <vector>
+#include <cstdio>
 using namespace std;
 
 int main()
 {
-    ios::sync_with_stdio(false);
-
     //freopen("in.txt", "r", stdin);
 
     int t;
-    cin >> t;
+    scanf("%d", &t);
 
     for(int tc = 1; tc <= t; ++tc) {
-        vector<string> V;
-        string s;
-        int val, max_val = 0;
+        int n;
+        scanf("%d", &n);
 
-        for(int i = 0; i < 10; ++i) {
-            cin >> s >> val;
-            if(val > max_val) {
-                V.clear();
-                V.push_back(s);
-                max_val = val;
-            }
-            else if(val == max_val) {
-                V.push_back(s);
-            }
+        char str[20];
+        scanf("%s", str);
+
+        int b_cnt = 0, w_cnt = 0, t_cnt = 0, a_cnt = 0;
+
+        for(int i = 0; i < n; ++i) {
+            if(str[i] == 'B') ++b_cnt;
+            else if(str[i] == 'W') ++w_cnt;
+            else if(str[i] == 'T') ++t_cnt;
+            else ++a_cnt;
         }
 
-        cout << "Case #" << tc << ":\n";
+        printf("Case %d: ", tc);
 
-        for(auto &url : V) cout << url << "\n";
+        if(n == a_cnt) {
+            puts("ABANDONED");
+        }
+        else if(n - a_cnt == b_cnt) {
+            puts("BANGLAWASH");
+        }
+        else if(n - a_cnt == w_cnt) {
+            puts("WHITEWASH");
+        }
+        else if(b_cnt == w_cnt) {
+            printf("DRAW %d %d\n", b_cnt, t_cnt);
+        }
+        else if(b_cnt > w_cnt) {
+            printf("BANGLADESH %d - %d\n", b_cnt, w_cnt);
+        }
+        else if(w_cnt > b_cnt) {
+            printf("WWW %d - %d\n", w_cnt, b_cnt);
+        }
     }
 
     return 0;
