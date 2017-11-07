@@ -1,56 +1,68 @@
 // ==================================================
-// Problem  :   12700 - Banglawash
-// Run time :   0.000 sec.
+// Problem  :   887B - Cubes for Masha
+// Run time :   0.030 sec.
 // Language :   C++11
 // ==================================================
 
 #include <cstdio>
 using namespace std;
 
+int n, a[3][6];
+bool doesExist[999+3] = {false};
+int values[3];
+
+void fn(int idx)
+{
+    if(idx-1 == 0) doesExist[values[0]] = true;
+    else if(idx-1 == 1) {
+        doesExist[values[1]] = true;
+        doesExist[values[0]*10 + values[1]] = true;
+        doesExist[values[1]*10 + values[0]] = true;
+    }
+    else if(idx-1 == 2) {
+        doesExist[values[2]] = true;
+        doesExist[values[0]*10 + values[2]] = true;
+        doesExist[values[2]*10 + values[0]] = true;
+        doesExist[values[1]*10 + values[2]] = true;
+        doesExist[values[2]*10 + values[1]] = true;
+        doesExist[values[0]*100 + values[1]*10 + values[2]] = true;
+        doesExist[values[0]*100 + values[2]*10 + values[1]] = true;
+        doesExist[values[1]*100 + values[0]*10 + values[2]] = true;
+        doesExist[values[1]*100 + values[2]*10 + values[0]] = true;
+        doesExist[values[2]*100 + values[0]*10 + values[1]] = true;
+        doesExist[values[2]*100 + values[1]*10 + values[0]] = true;
+    }
+
+    if(idx == n) return;
+
+    for(int i = 0; i < 6; ++i) {
+        values[idx] = a[idx][i];
+        fn(idx+1);
+    }
+}
+
 int main()
 {
     //freopen("in.txt", "r", stdin);
 
-    int t;
-    scanf("%d", &t);
+    scanf("%d", &n);
 
-    for(int tc = 1; tc <= t; ++tc) {
-        int n;
-        scanf("%d", &n);
+    for(int i = 0; i < n; ++i)
+        for(int j = 0; j < 6; ++j)
+            scanf("%d", &a[i][j]);
 
-        char str[20];
-        scanf("%s", str);
+    fn(0);
 
-        int b_cnt = 0, w_cnt = 0, t_cnt = 0, a_cnt = 0;
+    int ans = 0;
 
-        for(int i = 0; i < n; ++i) {
-            if(str[i] == 'B') ++b_cnt;
-            else if(str[i] == 'W') ++w_cnt;
-            else if(str[i] == 'T') ++t_cnt;
-            else ++a_cnt;
-        }
-
-        printf("Case %d: ", tc);
-
-        if(n == a_cnt) {
-            puts("ABANDONED");
-        }
-        else if(n - a_cnt == b_cnt) {
-            puts("BANGLAWASH");
-        }
-        else if(n - a_cnt == w_cnt) {
-            puts("WHITEWASH");
-        }
-        else if(b_cnt == w_cnt) {
-            printf("DRAW %d %d\n", b_cnt, t_cnt);
-        }
-        else if(b_cnt > w_cnt) {
-            printf("BANGLADESH %d - %d\n", b_cnt, w_cnt);
-        }
-        else if(w_cnt > b_cnt) {
-            printf("WWW %d - %d\n", w_cnt, b_cnt);
+    for(int i = 1; i <= 1000; ++i) {
+        if(!doesExist[i]) {
+            ans = i - 1;
+            break;
         }
     }
+
+    printf("%d\n", ans);
 
     return 0;
 }
