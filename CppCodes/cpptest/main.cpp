@@ -1,68 +1,42 @@
 // ==================================================
-// Problem  :   887B - Cubes for Masha
-// Run time :   0.030 sec.
+// Problem  :   888D - Almost Identity Permutations
+// Run time :   0.015 sec.
 // Language :   C++11
 // ==================================================
 
-#include <cstdio>
+#include <iostream>
 using namespace std;
 
-int n, a[3][6];
-bool doesExist[999+3] = {false};
-int values[3];
 
-void fn(int idx)
-{
-    if(idx-1 == 0) doesExist[values[0]] = true;
-    else if(idx-1 == 1) {
-        doesExist[values[1]] = true;
-        doesExist[values[0]*10 + values[1]] = true;
-        doesExist[values[1]*10 + values[0]] = true;
-    }
-    else if(idx-1 == 2) {
-        doesExist[values[2]] = true;
-        doesExist[values[0]*10 + values[2]] = true;
-        doesExist[values[2]*10 + values[0]] = true;
-        doesExist[values[1]*10 + values[2]] = true;
-        doesExist[values[2]*10 + values[1]] = true;
-        doesExist[values[0]*100 + values[1]*10 + values[2]] = true;
-        doesExist[values[0]*100 + values[2]*10 + values[1]] = true;
-        doesExist[values[1]*100 + values[0]*10 + values[2]] = true;
-        doesExist[values[1]*100 + values[2]*10 + values[0]] = true;
-        doesExist[values[2]*100 + values[0]*10 + values[1]] = true;
-        doesExist[values[2]*100 + values[1]*10 + values[0]] = true;
-    }
+typedef     unsigned long long      ULL;
 
-    if(idx == n) return;
-
-    for(int i = 0; i < 6; ++i) {
-        values[idx] = a[idx][i];
-        fn(idx+1);
-    }
-}
 
 int main()
 {
     //freopen("in.txt", "r", stdin);
 
-    scanf("%d", &n);
+    int n, k;
+    cin >> n >> k;
 
-    for(int i = 0; i < n; ++i)
-        for(int j = 0; j < 6; ++j)
-            scanf("%d", &a[i][j]);
+    ULL nCr[n+3][n+3] = {{0}};
+    int derangement[] = {1, 0, 1, 2, 9, 44, 265};
 
-    fn(0);
 
-    int ans = 0;
+    // build nCr
+    for(int i = 0; i <= n; ++i)
+        nCr[i][0] = nCr[i][i] = 1;
 
-    for(int i = 1; i <= 1000; ++i) {
-        if(!doesExist[i]) {
-            ans = i - 1;
-            break;
-        }
-    }
+    for(int i = 2; i <= n; ++i)
+        for(int j = 1; j < i; ++j)
+            nCr[i][j] = nCr[i-1][j-1] + nCr[i-1][j];
 
-    printf("%d\n", ans);
+    // Calculate ans.
+    ULL ans = 0;
+
+    for(int i = k; i >= 0; --i)
+        ans += nCr[n][n-i] * derangement[i];
+
+    cout << ans << '\n';
 
     return 0;
 }
