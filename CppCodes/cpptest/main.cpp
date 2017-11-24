@@ -1,42 +1,37 @@
 // ==================================================
-// Problem  :   888D - Almost Identity Permutations
+// Problem  :   894C - Marco and GCD Sequence
 // Run time :   0.015 sec.
 // Language :   C++11
 // ==================================================
 
-#include <iostream>
+#include <cstdio>
 using namespace std;
 
-
-typedef     unsigned long long      ULL;
-
+const int MAXM = 1000 + 3;
 
 int main()
 {
     //freopen("in.txt", "r", stdin);
 
-    int n, k;
-    cin >> n >> k;
+    int m, s[MAXM];
 
-    ULL nCr[n+3][n+3] = {{0}};
-    int derangement[] = {1, 0, 1, 2, 9, 44, 265};
+    scanf("%d", &m);
 
+    for(int i = 0; i < m; ++i) scanf("%d", s+i);
 
-    // build nCr
-    for(int i = 0; i <= n; ++i)
-        nCr[i][0] = nCr[i][i] = 1;
+    for(int i = 1; i < m; ++i) {
+        if(s[i] % s[0]) {
+            puts("-1");
+            return 0;
+        }
+    }
 
-    for(int i = 2; i <= n; ++i)
-        for(int j = 1; j < i; ++j)
-            nCr[i][j] = nCr[i-1][j-1] + nCr[i-1][j];
+    printf("%d\n%d", 2*m-1, s[0]);
 
-    // Calculate ans.
-    ULL ans = 0;
+    for(int i = 1; i < m; ++i)
+        printf(" %d %d", s[i], s[0]);
 
-    for(int i = k; i >= 0; --i)
-        ans += nCr[n][n-i] * derangement[i];
-
-    cout << ans << '\n';
+    putchar('\n');
 
     return 0;
 }
