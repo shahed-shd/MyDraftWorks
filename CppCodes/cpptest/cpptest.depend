@@ -2,6 +2,8 @@
 1505165377 source:/home/shahed/ShdHomeData/MyDraftWorks/cpptest/main.cpp
 	<cstdio>
 
-1511379390 source:/home/shahed/ShdHomeData/MyDraftWorks/CppCodes/cpptest/main.cpp
-	<cstdio>
+1512079870 source:/home/shahed/ShdHomeData/MyDraftWorks/CppCodes/cpptest/main.cpp
+	<iostream>
+	<algorithm>
+	<vector>
 
