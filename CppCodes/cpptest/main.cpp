@@ -1,6 +1,6 @@
 // ==================================================
-// Problem  :   894C - Marco and GCD Sequence
-// Run time :   0.015 sec.
+// Problem  :   894D - Ralph And His Tour in Binary Country
+// Run time :   1.903 sec.
 // Language :   C++11
 // ==================================================
 
@@ -61,20 +61,20 @@ void dfs_merge(int u)
     int v1 = u << 1, v2 = (u << 1) | 1;
     auto &dist_u = distances[u], &dist_v1 = distances[v1], &dist_v2 = distances[v2];;
 
-    if(v1 <= n) dfs_merge(v1), dist_u.push_back(L[v1-1]);
-    if(v2 <= n) dfs_merge(v2), dist_u.push_back(L[v2-1]);
+    int sz1 = 0, sz2 = 0;
 
-    if(dist_u.size() == 2 and dist_u[0] > dist_u[1])
-        swap(dist_u[0], dist_u[1]);
-
-    int sz1 = distances[v1].size(), sz2 = distances[v2].size();
+    if(v1 <= n) dfs_merge(v1), sz1 = distances[v1].size();
+    if(v2 <= n) dfs_merge(v2), sz2 = distances[v2].size();
 
     for(int i = 0, j = 0; i < sz1 or j < sz2; ) {
-        if(i < sz1 and (j >= sz2 or dist_v1[i] < dist_v2[j]))
+        if(i < sz1 and (j >= sz2 or L[v1-1] + dist_v1[i] < L[v2-1] + dist_v2[j]))
             dist_u.push_back(L[v1-1] + dist_v1[i++]);
         else
             dist_u.push_back(L[v2-1] + dist_v2[j++]);
     }
+
+    if(v1 <= n) dist_u.insert(upper_bound(dist_u.begin(), dist_u.end(), L[v1-1]), L[v1-1]);
+    if(v2 <= n) dist_u.insert(upper_bound(dist_u.begin(), dist_u.end(), L[v2-1]), L[v2-1]);
 
     auto &cum_sum_u = cum_sum[u];
 
