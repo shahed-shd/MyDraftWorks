@@ -1,106 +1,134 @@
 // ==================================================
-// Problem  :   894D - Ralph And His Tour in Binary Country
-// Run time :   1.903 sec.
+// Problem  :   894E - Ralph and Mushrooms
+// Run time :   1.075 sec.
 // Language :   C++11
 // ==================================================
 
-#include <iostream>
-#include <algorithm>
+// SCC and DAG - Tarjan's algorithm
+// Time Complexity  : O(V+E)
+
+#include <cstdio>
+#include <bitset>
+#include <stack>
 #include <vector>
 using namespace std;
 
-typedef     long long       LL;
 
-const int MAXN = 1e6 + 3;
+const int MAXN = 10 + 3;
 
-int n, L[MAXN];
-vector<int> distances[MAXN];
-vector<LL> cum_sum[MAXN];
+vector<vector<int> > adjList, adj;
+vector<int> sccId;
+
+vector<int> disc, low;
+stack<int> stk;
+bitset<MAXN> isInStack;
+int sccCnt, timeCnt;
 
 
-LL get_ans(int a, LL h)
+void tarjan_scc(int u)
 {
-    LL ret = h;
+    disc[u] = low[u] = ++timeCnt;
+    stk.push(u);
+    isInStack[u] = true;
 
-    int cnt = upper_bound(distances[a].begin(), distances[a].end(), h) - distances[a].begin();
-    if(cnt) ret += cnt * h - cum_sum[a][cnt-1];
-
-    int u, v = a;
-
-    while(h > 0) {
-        u = v / 2;
-
-        if(u == 0) break;
-
-        if(L[v-1] <= h) {
-            ret +=  h - L[v-1];
-            h -= L[v-1];
+    for(auto &v: adjList[u]) {
+        if(disc[v] == -1) {
+            tarjan_scc(v);
+            low[u] = min(low[u], low[v]);
         }
-        else break;
-
-        if(h == 0) break;
-
-        int v2 = (v & 1)? v-1 : v+1;
-
-        if(v2 <= n and L[v2-1] <= h) {
-            ret += h - L[v2-1];
-
-            cnt = upper_bound(distances[v2].begin(), distances[v2].end(), h - L[v2-1]) - distances[v2].begin();
-            if(cnt) ret += cnt * (h - L[v2-1]) - cum_sum[v2][cnt-1];
+        else if(isInStack[v]) {
+            low[u] = min(low[u], disc[v]);
         }
-
-        v = u;
     }
 
-    return ret;
-}
+    if(disc[u] == low[u]) {
+        int tp;
 
+        do {
+            tp = stk.top(); stk.pop();
+            isInStack[tp] = false;
+            sccId[tp] = sccCnt;
+        } while(tp != u);
 
-void dfs_merge(int u)
-{
-    int v1 = u << 1, v2 = (u << 1) | 1;
-    auto &dist_u = distances[u], &dist_v1 = distances[v1], &dist_v2 = distances[v2];;
-
-    int sz1 = 0, sz2 = 0;
-
-    if(v1 <= n) dfs_merge(v1), sz1 = distances[v1].size();
-    if(v2 <= n) dfs_merge(v2), sz2 = distances[v2].size();
-
-    for(int i = 0, j = 0; i < sz1 or j < sz2; ) {
-        if(i < sz1 and (j >= sz2 or L[v1-1] + dist_v1[i] < L[v2-1] + dist_v2[j]))
-            dist_u.push_back(L[v1-1] + dist_v1[i++]);
-        else
-            dist_u.push_back(L[v2-1] + dist_v2[j++]);
+        ++sccCnt;
     }
-
-    if(v1 <= n) dist_u.insert(upper_bound(dist_u.begin(), dist_u.end(), L[v1-1]), L[v1-1]);
-    if(v2 <= n) dist_u.insert(upper_bound(dist_u.begin(), dist_u.end(), L[v2-1]), L[v2-1]);
-
-    auto &cum_sum_u = cum_sum[u];
-
-    for(auto &x : dist_u)
-        cum_sum_u.push_back(cum_sum_u.size() ? cum_sum_u.back() + x : x);
 }
+
 
 int main()
 {
     //freopen("in.txt", "r", stdin);
 
-    ios::sync_with_stdio(false);
+    int n = 6;
 
-    int m;
-    cin >> n >> m;
+    adjList.resize(n+3);
 
-    for(int i = 1; i < n; ++i) cin >> L[i];
+    adjList[0].push_back(1);
+    adjList[1].push_back(2);
+    adjList[2].push_back(3);
+    adjList[3].push_back(4);
+    adjList[4].push_back(2);
+    adjList[5].push_back(1);
+    adjList[5].push_back(4);
 
-    dfs_merge(1);
+    // SCC
 
-    int a, h;
+    sccId.assign(n+3, -1);
 
-    while(m--) {
-        cin >> a >> h;
-        cout << get_ans(a, h) << '\n';
+    disc.assign(n+3, -1);
+    low.assign(n+3, -1);
+    isInStack.reset();
+    sccCnt = 0;
+    timeCnt = 0;
+
+    for(int i = 0; i < n; ++i)
+        if(disc[i] == -1)
+            tarjan_scc(i);
+
+    printf("Total SCC: %d\n", sccCnt);
+
+    for(int i = 0; i < n; ++i)
+        printf("node %d is in scc %d\n", i, sccId[i]);
+
+    // Constructing DAG
+
+    adj.resize(sccCnt+3);
+
+    for(int u = 0; u < n; ++u) {
+        for(auto &v : adjList[u]) {
+            int uu = sccId[u], vv = sccId[v];
+            if(uu != vv)
+                adj[uu].push_back(vv);
+        }
+    }
+
+    printf("\nNow, the DAG:\n");
+
+    for(int u = 0; u < sccCnt; ++u) {
+        printf("%d ->", u);
+        for(auto &v : adj[u])
+            printf(" %d", v);
+        putchar('\n');
     }
 
     return 0;
 }
+
+/*
+Output:
+--------------------
+Total SCC: 4
+node 0 is in scc 2
+node 1 is in scc 1
+node 2 is in scc 0
+node 3 is in scc 0
+node 4 is in scc 0
+node 5 is in scc 3
+
+Now, the DAG:
+0 ->
+1 -> 0
+2 -> 1
+3 -> 1 0
+--------------------
+*/

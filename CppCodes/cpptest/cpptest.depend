@@ -2,8 +2,9 @@
 1505165377 source:/home/shahed/ShdHomeData/MyDraftWorks/cpptest/main.cpp
 	<cstdio>
 
-1512218300 source:/home/shahed/ShdHomeData/MyDraftWorks/CppCodes/cpptest/main.cpp
-	<iostream>
-	<algorithm>
+1512487493 source:/home/shahed/ShdHomeData/MyDraftWorks/CppCodes/cpptest/main.cpp
+	<cstdio>
+	<bitset>
+	<stack>
 	<vector>
 
