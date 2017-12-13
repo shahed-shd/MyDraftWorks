@@ -1,134 +1,162 @@
 // ==================================================
-// Problem  :   894E - Ralph and Mushrooms
-// Run time :   1.075 sec.
+// Problem  :   758 - The Same Game
+// Run time :   0.020 sec.
 // Language :   C++11
 // ==================================================
 
-// SCC and DAG - Tarjan's algorithm
-// Time Complexity  : O(V+E)
-
 #include <cstdio>
-#include <bitset>
-#include <stack>
-#include <vector>
+#include <algorithm>
 using namespace std;
 
 
-const int MAXN = 10 + 3;
+const int MAXR = 10;
+const int MAXC = 15;
 
-vector<vector<int> > adjList, adj;
-vector<int> sccId;
-
-vector<int> disc, low;
-stack<int> stk;
-bitset<MAXN> isInStack;
-int sccCnt, timeCnt;
+const int dr[] = {0, 0, 1, -1};
+const int dc[] = {1, -1, 0, 0};
 
 
-void tarjan_scc(int u)
-{
-    disc[u] = low[u] = ++timeCnt;
-    stk.push(u);
-    isInStack[u] = true;
+class Board {
+    char grid[MAXR+3][MAXC+3];
+    int tot_balls, moveCnt;
+    int cluster_ids[MAXR+3][MAXC+3];
 
-    for(auto &v: adjList[u]) {
-        if(disc[v] == -1) {
-            tarjan_scc(v);
-            low[u] = min(low[u], low[v]);
+
+    int flood_fill(int r, int c, char color, int curr_id) {
+        if(r < 1 or r > MAXR or c < 1 or c > MAXC or grid[r][c] != color or cluster_ids[r][c]) {
+            return 0;
         }
-        else if(isInStack[v]) {
-            low[u] = min(low[u], disc[v]);
+
+        cluster_ids[r][c] = curr_id;
+        int ret = 1;
+
+        for(int i = 0; i < 4; ++i)
+            ret += flood_fill(r+dr[i], c+dc[i], color, curr_id);
+
+        return ret;
+    }
+
+
+    void get_largest_cluster(int &cluster_id, int &cluster_size, int &rr, int &cc) {
+        fill(&cluster_ids[0][0], &cluster_ids[MAXR+1][0], 0);
+
+        cluster_id = 0, cluster_size = 1;
+        int curr_id = 0;
+
+        for(int c = 1; c <= MAXC; ++c) {
+            for(int r = 1; r <= MAXR; ++r) {
+                char grid_rc = grid[r][c];
+
+                if(cluster_ids[r][c] == 0 and (grid_rc == 'R' or grid_rc == 'G' or grid_rc == 'B')) {
+                    int cnt = flood_fill(r, c, grid_rc, ++curr_id);
+
+                    if(cnt > cluster_size) {
+                        cluster_size = cnt;
+                        cluster_id = curr_id;
+                        rr = r, cc = c;
+                    }
+                }
+            }
         }
     }
 
-    if(disc[u] == low[u]) {
-        int tp;
 
-        do {
-            tp = stk.top(); stk.pop();
-            isInStack[tp] = false;
-            sccId[tp] = sccCnt;
-        } while(tp != u);
+    void remove_cluster(int cluster_id, int cluster_size) {
+        tot_balls -= cluster_size;
 
-        ++sccCnt;
+        // adjust rows.
+
+        for(int c = 1; c <= MAXC; ++c) {
+            int rr = 1;
+
+            for(int r = 1; r <= MAXR; ++r) {
+                if(cluster_ids[r][c] and cluster_ids[r][c] != cluster_id) {
+                    if(r != rr) {
+                        grid[rr][c] = grid[r][c];
+                        cluster_ids[rr][c] = cluster_ids[r][c];
+                    }
+                    ++rr;
+                }
+            }
+
+            for( ; rr <= MAXR; ++rr) {
+                grid[rr][c] = ' ';
+                cluster_ids[rr][c] = 0;
+            }
+        }
+
+        // Now, adjust columns.
+
+        int cc = 1;
+
+        for(int c = 1; c <= MAXC; ++c) {
+            if(grid[1][c] != ' ') {
+                if(c != cc) {
+                    for(int r = 1; r <= MAXR; ++r) {
+                        grid[r][cc] = grid[r][c];
+                        cluster_ids[r][cc] = grid[r][c];
+                    }
+                }
+                ++cc;
+            }
+        }
+
+        for( ; cc <= MAXC; ++cc)
+            if(grid[1][cc] != ' ')
+                for(int r = 1; r <= MAXR; ++r)
+                    grid[r][cc] = ' ', cluster_ids[r][cc] = 0;
     }
-}
 
+
+public:
+    Board() {
+        for(int i = MAXR; i > 0; --i)
+            scanf("%s", &grid[i][1]);
+
+        tot_balls = MAXR * MAXC;
+        moveCnt = 0;
+    }
+
+
+    void turn() {
+        int cluster_id, cluster_size, r, c;
+        int tot_score = 0;
+
+
+        while(true) {
+            get_largest_cluster(cluster_id, cluster_size, r, c);
+
+            if(cluster_size < 2) break;
+
+            int score = (cluster_size - 2) * (cluster_size - 2);
+            printf("Move %d at (%d,%d): removed %d balls of color %c, got %d points.\n", ++moveCnt, r, c, cluster_size, grid[r][c], score);
+            tot_score += score;
+
+            remove_cluster(cluster_id, cluster_size);
+        }
+
+        tot_score += (tot_balls)? 0 : 1000;
+
+        printf("Final score: %d, with %d balls remaining.\n", tot_score, tot_balls);
+    }
+};
 
 int main()
 {
     //freopen("in.txt", "r", stdin);
+    //freopen("out.txt", "w", stdout);
 
-    int n = 6;
+    int t;
+    scanf("%d", &t);
 
-    adjList.resize(n+3);
+    for(int tc = 1; tc <= t; ++tc) {
+        printf("Game %d:\n\n", tc);
 
-    adjList[0].push_back(1);
-    adjList[1].push_back(2);
-    adjList[2].push_back(3);
-    adjList[3].push_back(4);
-    adjList[4].push_back(2);
-    adjList[5].push_back(1);
-    adjList[5].push_back(4);
+        Board b;
+        b.turn();
 
-    // SCC
-
-    sccId.assign(n+3, -1);
-
-    disc.assign(n+3, -1);
-    low.assign(n+3, -1);
-    isInStack.reset();
-    sccCnt = 0;
-    timeCnt = 0;
-
-    for(int i = 0; i < n; ++i)
-        if(disc[i] == -1)
-            tarjan_scc(i);
-
-    printf("Total SCC: %d\n", sccCnt);
-
-    for(int i = 0; i < n; ++i)
-        printf("node %d is in scc %d\n", i, sccId[i]);
-
-    // Constructing DAG
-
-    adj.resize(sccCnt+3);
-
-    for(int u = 0; u < n; ++u) {
-        for(auto &v : adjList[u]) {
-            int uu = sccId[u], vv = sccId[v];
-            if(uu != vv)
-                adj[uu].push_back(vv);
-        }
-    }
-
-    printf("\nNow, the DAG:\n");
-
-    for(int u = 0; u < sccCnt; ++u) {
-        printf("%d ->", u);
-        for(auto &v : adj[u])
-            printf(" %d", v);
-        putchar('\n');
+        if(tc < t) putchar('\n');
     }
 
     return 0;
 }
-
-/*
-Output:
---------------------
-Total SCC: 4
-node 0 is in scc 2
-node 1 is in scc 1
-node 2 is in scc 0
-node 3 is in scc 0
-node 4 is in scc 0
-node 5 is in scc 3
-
-Now, the DAG:
-0 ->
-1 -> 0
-2 -> 1
-3 -> 1 0
---------------------
-*/
