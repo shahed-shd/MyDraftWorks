@@ -1,161 +1,85 @@
 // ==================================================
-// Problem  :   758 - The Same Game
+// Problem  :   610 - Street Directions
 // Run time :   0.020 sec.
 // Language :   C++11
 // ==================================================
 
 #include <cstdio>
 #include <algorithm>
+#include <vector>
 using namespace std;
 
 
-const int MAXR = 10;
-const int MAXC = 15;
+const int MAXN = 1000 + 3;
+enum visColor {WHITE, GRAY, BLACK};
 
-const int dr[] = {0, 0, 1, -1};
-const int dc[] = {1, -1, 0, 0};
-
-
-class Board {
-    char grid[MAXR+3][MAXC+3];
-    int tot_balls, moveCnt;
-    int cluster_ids[MAXR+3][MAXC+3];
+vector<vector<int> > adjList;
+int visTime[MAXN];
+visColor color[MAXN];
+int hitNode[MAXN];
+int vtime;
 
 
-    int flood_fill(int r, int c, char color, int curr_id) {
-        if(r < 1 or r > MAXR or c < 1 or c > MAXC or grid[r][c] != color or cluster_ids[r][c]) {
-            return 0;
-        }
+void dfs(int u, int p)
+{
+    visTime[u] = ++vtime;
+    color[u] = GRAY;
 
-        cluster_ids[r][c] = curr_id;
-        int ret = 1;
+    for(auto &v : adjList[u]) {
+        if(!visTime[v]) {
+            dfs(v, u);
 
-        for(int i = 0; i < 4; ++i)
-            ret += flood_fill(r+dr[i], c+dc[i], color, curr_id);
+            if(hitNode[v] != v) {
+                printf("%d %d\n", u, v);
 
-        return ret;
-    }
-
-
-    void get_largest_cluster(int &cluster_id, int &cluster_size, int &rr, int &cc) {
-        fill(&cluster_ids[0][0], &cluster_ids[MAXR+1][0], 0);
-
-        cluster_id = 0, cluster_size = 1;
-        int curr_id = 0;
-
-        for(int c = 1; c <= MAXC; ++c) {
-            for(int r = 1; r <= MAXR; ++r) {
-                char grid_rc = grid[r][c];
-
-                if(cluster_ids[r][c] == 0 and (grid_rc == 'R' or grid_rc == 'G' or grid_rc == 'B')) {
-                    int cnt = flood_fill(r, c, grid_rc, ++curr_id);
-
-                    if(cnt > cluster_size) {
-                        cluster_size = cnt;
-                        cluster_id = curr_id;
-                        rr = r, cc = c;
-                    }
-                }
+                if(visTime[hitNode[v]] < visTime[hitNode[u]])
+                    hitNode[u] = hitNode[v];
+            }
+            else {
+                printf("%d %d\n%d %d\n", u, v, v, u);
             }
         }
-    }
+        else if(v != p and color[v] == GRAY) {
+            printf("%d %d\n", u, v);
 
-
-    void remove_cluster(int cluster_id, int cluster_size) {
-        tot_balls -= cluster_size;
-
-        // adjust rows.
-
-        for(int c = 1; c <= MAXC; ++c) {
-            int rr = 1;
-
-            for(int r = 1; r <= MAXR; ++r) {
-                if(cluster_ids[r][c] and cluster_ids[r][c] != cluster_id) {
-                    if(r != rr) {
-                        grid[rr][c] = grid[r][c];
-                        cluster_ids[rr][c] = cluster_ids[r][c];
-                    }
-                    ++rr;
-                }
-            }
-
-            for( ; rr <= MAXR; ++rr) {
-                grid[rr][c] = ' ';
-                cluster_ids[rr][c] = 0;
-            }
+            if(visTime[v] < visTime[hitNode[u]])
+                hitNode[u] = v;
         }
-
-        // Now, adjust columns.
-
-        int cc = 1;
-
-        for(int c = 1; c <= MAXC; ++c) {
-            if(grid[1][c] != ' ') {
-                if(c != cc) {
-                    for(int r = 1; r <= MAXR; ++r) {
-                        grid[r][cc] = grid[r][c];
-                        cluster_ids[r][cc] = grid[r][c];
-                    }
-                }
-                ++cc;
-            }
-        }
-
-        for( ; cc <= MAXC; ++cc)
-            if(grid[1][cc] != ' ')
-                for(int r = 1; r <= MAXR; ++r)
-                    grid[r][cc] = ' ', cluster_ids[r][cc] = 0;
     }
 
+    color[u] = BLACK;
+}
 
-public:
-    Board() {
-        for(int i = MAXR; i > 0; --i)
-            scanf("%s", &grid[i][1]);
-
-        tot_balls = MAXR * MAXC;
-        moveCnt = 0;
-    }
-
-
-    void turn() {
-        int cluster_id, cluster_size, r, c;
-        int tot_score = 0;
-
-
-        while(true) {
-            get_largest_cluster(cluster_id, cluster_size, r, c);
-
-            if(cluster_size < 2) break;
-
-            int score = (cluster_size - 2) * (cluster_size - 2);
-            printf("Move %d at (%d,%d): removed %d balls of color %c, got %d points.\n", ++moveCnt, r, c, cluster_size, grid[r][c], score);
-            tot_score += score;
-
-            remove_cluster(cluster_id, cluster_size);
-        }
-
-        tot_score += (tot_balls)? 0 : 1000;
-
-        printf("Final score: %d, with %d balls remaining.\n", tot_score, tot_balls);
-    }
-};
 
 int main()
 {
     //freopen("in.txt", "r", stdin);
-    //freopen("out.txt", "w", stdout);
 
-    int t;
-    scanf("%d", &t);
+    int n, m, tc = 0;
 
-    for(int tc = 1; tc <= t; ++tc) {
-        printf("Game %d:\n\n", tc);
+    while(scanf("%d %d", &n, &m), n and m) {
+        adjList.clear();
 
-        Board b;
-        b.turn();
+        adjList.resize(n+3);
+        int u, v;
 
-        if(tc < t) putchar('\n');
+        while(m--) {
+            scanf("%d %d", &u, &v);
+            adjList[u].push_back(v);
+            adjList[v].push_back(u);
+        }
+
+        printf("%d\n\n", ++tc);
+
+
+        fill_n(visTime, n+3, 0);
+        fill_n(color, n+3, WHITE);
+        for(int i = 0; i < n+3; ++i) hitNode[i] = i;
+        vtime = 0;
+
+        dfs(1, -1);
+
+        puts("#");
     }
 
     return 0;
