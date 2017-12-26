@@ -72,18 +72,21 @@ out2 = [ones(m, 1), out2];
 net3 = out2 * Theta2';
 out3 = sigmoid(net3);
 
-yy = zeros(m, num_labels);
-for i = 1:m
-    yy(i, y(i)) = 1;
-endfor
+yy = eye(num_labels)(y, :);
 
 J = 1/m * sum(sum(-yy .* log(out3) - (1-yy) .* log(1 - out3))) + ...
     lambda /(2 * m) * (sum(sumsq(Theta1(:,2:end))) + sum(sumsq(Theta2(:,2:end))));
 
 % -------------------------------------------------------------
 
-delta3 = (out3 - yy) .* sigmoidGradient(net3);
-delta2 = Theta2' * delta3 .* sigmoidGradient(net2);
+delta3 = (out3 - yy);
+delta2 = (delta3 * Theta2(:, 2:end)) .* sigmoidGradient(net2);
+
+Theta2_grad = 1/m * (delta3' * out2) + lambda/m * Theta2;
+Theta1_grad = 1/m * (delta2' * X) + lambda/m * Theta1;
+
+Theta2_grad(:, 1) -= lambda/m * Theta2(:, 1);
+Theta1_grad(:, 1) -= lambda/m * Theta1(:, 1);
 
 % =========================================================================
 
