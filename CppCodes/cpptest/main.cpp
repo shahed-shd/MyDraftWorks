@@ -1,85 +1,91 @@
 // ==================================================
-// Problem  :   610 - Street Directions
+// Problem  :   10687 - Monitoring the Amazon
 // Run time :   0.020 sec.
 // Language :   C++11
 // ==================================================
 
 #include <cstdio>
-#include <algorithm>
+#include <queue>
 #include <vector>
+#include <climits>
 using namespace std;
 
 
-const int MAXN = 1000 + 3;
-enum visColor {WHITE, GRAY, BLACK};
+typedef     pair<int, int>      ii;
 
-vector<vector<int> > adjList;
-int visTime[MAXN];
-visColor color[MAXN];
-int hitNode[MAXN];
-int vtime;
+const int INF = INT_MAX;
+
+vector<vector<ii> > adjList;
 
 
-void dfs(int u, int p)
+void dijkstra(int s, int n)
 {
-    visTime[u] = ++vtime;
-    color[u] = GRAY;
+    priority_queue<ii, vector<ii>, greater<ii> > pq;
+    int dist[n+3];
+    fill(dist, dist+n+1, INF);
 
-    for(auto &v : adjList[u]) {
-        if(!visTime[v]) {
-            dfs(v, u);
+    pq.push(ii(0, s));
+    dist[s] = 0;
 
-            if(hitNode[v] != v) {
-                printf("%d %d\n", u, v);
+    while(!pq.empty()) {
+        int u = pq.top().second; pq.pop();
 
-                if(visTime[hitNode[v]] < visTime[hitNode[u]])
-                    hitNode[u] = hitNode[v];
+        for(auto &pr : adjList[u]) {
+            int v = pr.first;
+            int w = pr.second;
+
+            if(dist[u] + w < dist[v]) {
+                dist[v] = dist[u] + w;
+                pq.push(ii(dist[v], v));
             }
-            else {
-                printf("%d %d\n%d %d\n", u, v, v, u);
-            }
-        }
-        else if(v != p and color[v] == GRAY) {
-            printf("%d %d\n", u, v);
-
-            if(visTime[v] < visTime[hitNode[u]])
-                hitNode[u] = v;
         }
     }
 
-    color[u] = BLACK;
+    int mxDist1 = -1, mxDist2 = -1, node1, node2;
+
+    for(int i = 1; i <= n; ++i) {
+        if(mxDist1 <= dist[i]) {
+            mxDist2 = mxDist1, node2 = node1;
+            mxDist1 = dist[i], node1 = i;
+        }
+        else if(mxDist2 < dist[i]) {
+            mxDist2 = dist[i], node2 = i;
+        }
+    }
+
+    if(mxDist1 == mxDist2) {
+        for(auto &pr : adjList[node1]) {
+            if(pr.first == node2) {
+                printf("The last domino falls after %.1f seconds, between key dominoes %d and %d.\n", mxDist1+pr.second/2.0, node1, node2);
+                return;
+            }
+        }
+    }
+
+    printf("The last domino falls after %.1f seconds, at key domino %d.\n", double(mxDist1), node1);
 }
 
 
 int main()
 {
-    //freopen("in.txt", "r", stdin);
+    freopen("in.txt", "r", stdin);
 
-    int n, m, tc = 0;
+    int n, m;
 
-    while(scanf("%d %d", &n, &m), n and m) {
+    while(scanf("%d %d", &n,  &m), n and m) {
         adjList.clear();
 
         adjList.resize(n+3);
-        int u, v;
+
+        int u, v, w;
 
         while(m--) {
-            scanf("%d %d", &u, &v);
-            adjList[u].push_back(v);
-            adjList[v].push_back(u);
+            scanf("%d %d %d", &u, &v, &w);
+            adjList[u].push_back(ii(v, w));
+            adjList[v].push_back(ii(u, w));
         }
 
-        printf("%d\n\n", ++tc);
-
-
-        fill_n(visTime, n+3, 0);
-        fill_n(color, n+3, WHITE);
-        for(int i = 0; i < n+3; ++i) hitNode[i] = i;
-        vtime = 0;
-
-        dfs(1, -1);
-
-        puts("#");
+        dijkstra(1, n);
     }
 
     return 0;

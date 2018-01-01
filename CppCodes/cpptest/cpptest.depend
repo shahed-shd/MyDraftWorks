@@ -1,6 +1,7 @@
 # depslib dependency file v1.0
-1514235666 source:/home/shahed/ShdHomeData/MyDraftWorks/CppCodes/cpptest/main.cpp
+1514752262 source:/home/shahed/ShdHomeData/MyDraftWorks/CppCodes/cpptest/main.cpp
 	<cstdio>
-	<algorithm>
+	<queue>
 	<vector>
+	<climits>
 
