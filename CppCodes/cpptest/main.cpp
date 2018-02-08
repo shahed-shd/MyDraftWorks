@@ -1,73 +1,41 @@
 // ==================================================
-// Problem  :   318 - Domino Effect
+// Problem  :   11463 - Commandos
 // Run time :   0.000 sec.
 // Language :   C++11
 // ==================================================
 
 #include <cstdio>
+#include <algorithm>
 #include <queue>
 #include <vector>
 #include <climits>
 using namespace std;
 
 
-typedef     pair<int, int>      ii;
-
-
-const int MAXN = 500 + 3;
+const int MAXN = 100 + 3;
 const int INF = INT_MAX;
 
-vector<vector<ii> > adjList;
-int dist[MAXN];
+vector<vector<int> > adjList;
 
-void dijkstra(int s, int n)
+
+void bfs(int s, int n, int cost[])
 {
-    priority_queue<ii, vector<ii>, greater<ii> > pq;
-    fill(dist, dist+n+1, INF);
+    queue<int> q;
+    q.push(s);
 
-    pq.push(ii(0, s));
-    dist[s] = 0;
+    fill(cost, cost+n, INF);
+    cost[s] = 0;
 
-    while(!pq.empty()) {
-        int u = pq.top().second; pq.pop();
+    while(!q.empty()) {
+        int u = q.front(); q.pop();
 
-        for(auto &pr : adjList[u]) {
-            int v = pr.first;
-            int w = pr.second;
-
-            if(dist[u] + w < dist[v]) {
-                dist[v] = dist[u] + w;
-                pq.push(ii(dist[v], v));
+        for(auto &v : adjList[u]) {
+            if(cost[v] > cost[u] + 1) {
+                cost[v] = cost[u] + 1;
+                q.push(v);
             }
         }
     }
-}
-
-
-void print_output(int n)
-{
-    double d = -1.0;
-    int node1 = -1, node2 = -1;
-
-    for(int u = 1; u <= n; ++u) {
-        if(dist[u] >= d)
-            d = dist[u], node1 = u, node2 = -1;
-
-        for(auto &pr : adjList[u]) {
-            int v = pr.first;
-            int w = pr.second;
-
-            double tmp = (dist[u] + dist[v] + w) / 2.0;
-
-            if(tmp > d)
-                d = tmp, node1 = u, node2 = v;
-        }
-    }
-
-    if(node2 == -1)
-        printf("The last domino falls after %.1f seconds, at key domino %d.\n", d, node1);
-    else
-        printf("The last domino falls after %.1f seconds, between key dominoes %d and %d.\n", d, node1, node2);
 }
 
 
@@ -75,25 +43,38 @@ int main()
 {
     //freopen("in.txt", "r", stdin);
 
-    int n, m, tc = 0;
+    int t;
+    scanf("%d", &t);
 
-    while(scanf("%d %d", &n,  &m), n or m) {
+    for(int tc = 1; tc <= t; ++tc) {
         adjList.clear();
 
+        int n, r;
+        scanf("%d %d", &n, &r);
+
         adjList.resize(n+3);
+        int u, v;
 
-        int u, v, w;
-
-        while(m--) {
-            scanf("%d %d %d", &u, &v, &w);
-            adjList[u].push_back(ii(v, w));
-            adjList[v].push_back(ii(u, w));
+        while(r--) {
+            scanf("%d %d", &u, &v);
+            adjList[u].push_back(v);
+            adjList[v].push_back(u);
         }
 
-        printf("System #%d\n", ++tc);
-        dijkstra(1, n);
-        print_output(n);
-        putchar('\n');
+        int s, d;
+        scanf("%d %d", &s, &d);
+
+        int cost_from_s[MAXN], cost_from_d[MAXN];
+
+        bfs(s, n, cost_from_s);
+        bfs(d, n, cost_from_d);
+
+        int mx = 0;
+
+        for(int i = 0; i < n; ++i)
+            mx = max(mx, cost_from_s[i] + cost_from_d[i]);
+
+        printf("Case %d: %d\n", tc, mx);
     }
 
     return 0;

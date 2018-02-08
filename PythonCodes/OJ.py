@@ -1,9 +1,9 @@
 #! /usr/bin/python3
 
 # ==================================================
-# Problem   :   894A - QAQ
-# Run time  :   0.062 sec.
-# Language  :   Python 3.6
+# Problem   :   12114 - Bachelor Arithmetic
+# Run time  :   0.020 sec.
+# Language  :   Python 3.5
 # ==================================================
 
 
@@ -11,21 +11,34 @@ def main():
     from sys import stdin, stdout
 
     # stdin = open("in.txt", "r")
-    # it = iter(map(int, stdin.read().split()))
+    it = iter(map(int, stdin.read().split()))
+    tc = 0
 
-    s = stdin.read()
+    ansL = []
 
-    tot_q_cnt = s.count('Q')
-    curr_q_cnt = 0
-    ans = 0
+    while True:
+        b = next(it); s = next(it)
 
-    for x in s:
-    	if x == 'A':
-    		ans += curr_q_cnt * (tot_q_cnt - curr_q_cnt)
-    	elif x == 'Q':
-    		curr_q_cnt += 1
+        if b == 0 and s == 0:
+            break
 
-    stdout.write(str(ans) + '\n')
+        if b-1 == 0:
+            ans = ":-\\"
+        else:
+            before = min(1, s / b)
+            after = min(1, (s-1) / (b-1))
+
+            if before < after:
+                ans = ":-)"
+            elif before > after:
+                ans = ":-("
+            else:
+                ans = ":-|"
+
+        tc += 1
+        ansL.append("Case %d: %s\n" % (tc, ans))
+
+    stdout.write(''.join(ansL))
 
 
 if __name__ == '__main__':
