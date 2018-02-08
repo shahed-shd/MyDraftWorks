@@ -4,6 +4,3 @@
 323455693 is a multiple of 11.
 5038297 is a multiple of 11.
 112234 is not a multiple of 11.
-1 is not a multiple of 11.
-9 is not a multiple of 11.
-11 is a multiple of 11.
