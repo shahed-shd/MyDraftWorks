@@ -1,41 +1,48 @@
 // ==================================================
-// Problem  :   11463 - Commandos
-// Run time :   0.000 sec.
-// Language :   C++11
+// Problem  :   Separate the Numbers
+// Score    :   20 /20
+// Language :   C++14
 // ==================================================
 
 #include <cstdio>
-#include <algorithm>
-#include <queue>
-#include <vector>
-#include <climits>
 using namespace std;
 
 
-const int MAXN = 100 + 3;
-const int INF = INT_MAX;
-
-vector<vector<int> > adjList;
+typedef     long long       LL;
 
 
-void bfs(int s, int n, int cost[])
+const int MAXL = 32 + 3;
+
+
+int split(int arr[], int len)
 {
-    queue<int> q;
-    q.push(s);
+    LL a = 0;
+    int upto = len / 2;
 
-    fill(cost, cost+n, INF);
-    cost[s] = 0;
+    for(int init_num_len = 1; init_num_len <= upto; ++init_num_len) {
+        a = a * 10 + arr[init_num_len-1];
+        if(init_num_len > 1 and arr[0] == 0) break;     // a contains leading zero.
 
-    while(!q.empty()) {
-        int u = q.front(); q.pop();
+        LL b, c = a;
+        int curr_idx = init_num_len;
 
-        for(auto &v : adjList[u]) {
-            if(cost[v] > cost[u] + 1) {
-                cost[v] = cost[u] + 1;
-                q.push(v);
-            }
+        do {
+            if(arr[curr_idx] == 0) break;   // number contains leading zero.
+
+            b = c;
+            c = 0;
+
+            while(curr_idx < len and c <= b)
+                c = c * 10 + arr[curr_idx++];
+
+        } while(curr_idx < len and b+1 == c);
+
+        if(curr_idx == len and b+1 == c) {
+            return init_num_len;
         }
     }
+
+    return 0;   // Found no valid initial number after splitting the given number maintaining given rules.
 }
 
 
@@ -43,38 +50,28 @@ int main()
 {
     //freopen("in.txt", "r", stdin);
 
-    int t;
-    scanf("%d", &t);
+    int q;
+    scanf("%d", &q);
 
-    for(int tc = 1; tc <= t; ++tc) {
-        adjList.clear();
+    while(q--) {
+        char s[MAXL];
+        scanf("%s", s);
 
-        int n, r;
-        scanf("%d %d", &n, &r);
+        // Split the string into digits.
+        int arr[MAXL], len = 0;
 
-        adjList.resize(n+3);
-        int u, v;
+        for(len = 0; s[len]; ++len)
+            arr[len] = s[len] - '0';
 
-        while(r--) {
-            scanf("%d %d", &u, &v);
-            adjList[u].push_back(v);
-            adjList[v].push_back(u);
+        // Find the initial number length after splitting the the given number maintaining the given rules.
+        int init_num_len = split(arr, len);
+
+        // Output.
+        if(init_num_len) {
+            s[init_num_len] = '\0';
+            printf("YES %s\n", s);
         }
-
-        int s, d;
-        scanf("%d %d", &s, &d);
-
-        int cost_from_s[MAXN], cost_from_d[MAXN];
-
-        bfs(s, n, cost_from_s);
-        bfs(d, n, cost_from_d);
-
-        int mx = 0;
-
-        for(int i = 0; i < n; ++i)
-            mx = max(mx, cost_from_s[i] + cost_from_d[i]);
-
-        printf("Case %d: %d\n", tc, mx);
+        else puts("NO");
     }
 
     return 0;
