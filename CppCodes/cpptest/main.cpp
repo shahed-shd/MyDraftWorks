@@ -1,6 +1,6 @@
 // ==================================================
-// Problem  :   Separate the Numbers
-// Score    :   20 /20
+// Problem  :   914D - Bash and a Tough Math Puzzle
+// Run time :   0.919 sec.
 // Language :   C++14
 // ==================================================
 
@@ -8,41 +8,98 @@
 using namespace std;
 
 
-typedef     long long       LL;
+const int MAXN = 5e5 + 3;
+const int SZ = 1048575 + 3;     // (1 << (ceil(log2(MAXN)) + 1)) - 1
+
+int tree[SZ];
 
 
-const int MAXL = 32 + 3;
-
-
-int split(int arr[], int len)
+int gcd(int m, int n)
 {
-    LL a = 0;
-    int upto = len / 2;
-
-    for(int init_num_len = 1; init_num_len <= upto; ++init_num_len) {
-        a = a * 10 + arr[init_num_len-1];
-        if(init_num_len > 1 and arr[0] == 0) break;     // a contains leading zero.
-
-        LL b, c = a;
-        int curr_idx = init_num_len;
-
-        do {
-            if(arr[curr_idx] == 0) break;   // number contains leading zero.
-
-            b = c;
-            c = 0;
-
-            while(curr_idx < len and c <= b)
-                c = c * 10 + arr[curr_idx++];
-
-        } while(curr_idx < len and b+1 == c);
-
-        if(curr_idx == len and b+1 == c) {
-            return init_num_len;
-        }
+    while (n != 0) {
+        int t = m % n;
+        m = n;
+        n = t;
     }
 
-    return 0;   // Found no valid initial number after splitting the given number maintaining given rules.
+    return m;
+}
+
+
+void build(int node, int s, int t)
+{
+    if(s == t) {
+        scanf("%d", &tree[node]);
+        return;
+    }
+
+    int left = node << 1, right = left | 1, mid = (s + t) >> 1;
+
+    build(left, s, mid);
+    build(right, mid+1, t);
+
+    tree[node] = gcd(tree[left], tree[right]);
+}
+
+
+void update(int node, int s, int t, int idx, int val)
+{
+    if(t < idx or idx < s) return;
+
+    if(s == t) {
+        tree[node] = val;
+        return;
+    }
+
+    int left = node << 1, right = left | 1, mid = (s + t) >> 1;
+
+    update(left, s, mid, idx, val);
+    update(right, mid+1, t, idx, val);
+
+    tree[node] = gcd(tree[left], tree[right]);
+}
+
+
+int query_gcd(int node, int s, int t, int rs, int rt)
+{
+    if(t < rs or rt < s) return -1;
+
+    if(rs <= s and t <= rt) return tree[node];
+
+    int left = node << 1, right = left | 1, mid = (s + t) >> 1;
+
+    int q1 = query_gcd(left, s, mid, rs, rt);
+    int q2 = query_gcd(right, mid+1, t, rs, rt);
+
+    if(q1 == -1)
+        return q2;
+    else if(q2 == -1)
+        return q1;
+    else
+        return gcd(q1, q2);
+}
+
+
+int query_find(int node, int s, int t, int rs, int rt, int x)
+{
+    if(t < rs or rt < s) return 0;
+
+    if(s == t) {
+        return ((tree[node] % x)? 1 : 0);
+    }
+
+    if(rs <= s and t <= rt) {
+        if(tree[node] % x == 0)
+            return 0;
+    }
+
+    int left = node << 1, right = left | 1, mid = (s + t) >> 1;
+
+    int q1 = query_find(left, s, mid, rs, rt, x);
+    if(q1 > 1) return q1;
+
+    int q2 = query_find(right, mid+1, t, rs, rt, x);
+    return (q1 + q2);
 }
 
 
@@ -50,28 +107,37 @@ int main()
 {
     //freopen("in.txt", "r", stdin);
 
+    int n;
+    scanf("%d", &n);
+
+    build(1, 1, n);
+
     int q;
     scanf("%d", &q);
 
     while(q--) {
-        char s[MAXL];
-        scanf("%s", s);
+        int qry_type;
+        scanf("%d", &qry_type);
 
-        // Split the string into digits.
-        int arr[MAXL], len = 0;
+        if(qry_type == 1) {
+            int l, r, x;
+            scanf("%d %d %d", &l, &r, &x);
 
-        for(len = 0; s[len]; ++len)
-            arr[len] = s[len] - '0';
+            bool ans = false;
+            int g = query_gcd(1, 1, n, l, r);
 
-        // Find the initial number length after splitting the the given number maintaining the given rules.
-        int init_num_len = split(arr, len);
+            if(g % x == 0)
+                ans = true;
+            else
+                ans = query_find(1, 1, n, l, r, x) == 1;
 
-        // Output.
-        if(init_num_len) {
-            s[init_num_len] = '\0';
-            printf("YES %s\n", s);
+            puts(ans? "YES" : "NO");
         }
-        else puts("NO");
+        else {
+            int idx, val;
+            scanf("%d %d", &idx, &val);
+            update(1, 1, n, idx, val);
+        }
     }
 
     return 0;
