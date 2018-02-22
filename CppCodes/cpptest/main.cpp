@@ -1,105 +1,122 @@
 // ==================================================
-// Problem  :   914D - Bash and a Tough Math Puzzle
-// Run time :   0.919 sec.
+// Problem  :   2737 - Perfect Rhyme
+// Run time :   2.130 sec.
 // Language :   C++14
 // ==================================================
 
 #include <cstdio>
+#include <algorithm>
+#include <vector>
+#include <cstdlib>
+#include <cstring>
 using namespace std;
 
 
-const int MAXN = 5e5 + 3;
-const int SZ = 1048575 + 3;     // (1 << (ceil(log2(MAXN)) + 1)) - 1
+const int MAXN = 250000 + 3;
+const int MAXL = 30 + 3;
+const int ALPHABET = 26;
+const int ROOT = 0;
 
-int tree[SZ];
+char dict[MAXN][MAXL];
+
+int trie_size;
+int nxt[MAXN*MAXL][ALPHABET];
+int info[MAXN*MAXL];
 
 
-int gcd(int m, int n)
+void reset_row(int v)
 {
-    while (n != 0) {
-        int t = m % n;
-        m = n;
-        n = t;
-    }
-
-    return m;
+    fill(&nxt[v][0], &nxt[v][ALPHABET], 0);
 }
 
 
-void build(int node, int s, int t)
+void trie_insert(char str[], int len, int idx)
 {
-    if(s == t) {
-        scanf("%d", &tree[node]);
-        return;
+    int v = ROOT;
+
+    for(int i = 0; i < len; ++i) {
+        int &rf = nxt[v][str[i] - 'a'];
+
+        if(rf == 0) {
+            rf = ++trie_size;
+            reset_row(trie_size);
+        }
+
+        v = rf;
     }
 
-    int left = node << 1, right = left | 1, mid = (s + t) >> 1;
-
-    build(left, s, mid);
-    build(right, mid+1, t);
-
-    tree[node] = gcd(tree[left], tree[right]);
+    info[v] = idx;
 }
 
 
-void update(int node, int s, int t, int idx, int val)
+void dfs(int curr_v, int col, int idx_qry_str, int &idx)
 {
-    if(t < idx or idx < s) return;
-
-    if(s == t) {
-        tree[node] = val;
-        return;
+    if(info[curr_v] != -1) {
+        if(info[curr_v] != idx_qry_str) {
+            if(idx == -1 or strcmp(&dict[info[curr_v]][0], &dict[idx][0]) < 0) {
+                idx = info[curr_v];
+            }
+        }
     }
 
-    int left = node << 1, right = left | 1, mid = (s + t) >> 1;
+    int nxt_v = nxt[curr_v][col];
+    if(nxt_v == 0) return;
 
-    update(left, s, mid, idx, val);
-    update(right, mid+1, t, idx, val);
-
-    tree[node] = gcd(tree[left], tree[right]);
+    for(int i = 0; i < ALPHABET; ++i)
+        dfs(nxt_v, i, idx_qry_str, idx);
 }
 
 
-int query_gcd(int node, int s, int t, int rs, int rt)
+int trie_search(char str[], int len)
 {
-    if(t < rs or rt < s) return -1;
+    vector<int> nxt_seq;
+    int v = ROOT;
+    int idx_qry_str = -1;
 
-    if(rs <= s and t <= rt) return tree[node];
+    for(int i = 0; i < len; ++i) {
+        int &rf = nxt[v][str[i] - 'a'];
 
-    int left = node << 1, right = left | 1, mid = (s + t) >> 1;
+        if(rf == 0) {
+            break;
+        }
 
-    int q1 = query_gcd(left, s, mid, rs, rt);
-    int q2 = query_gcd(right, mid+1, t, rs, rt);
+        v = rf;
+        nxt_seq.push_back(rf);
 
-    if(q1 == -1)
-        return q2;
-    else if(q2 == -1)
-        return q1;
-    else
-        return gcd(q1, q2);
+        if(i == len-1) idx_qry_str = info[v];
+    }
+
+    int idx = -1;
+
+    while(!nxt_seq.empty() and idx == -1) {
+        int curr_v = nxt_seq.back(); nxt_seq.pop_back();
+
+        for(int i = 0; i < ALPHABET; ++i) {
+            if(nxt[curr_v][i] != 0) {
+                dfs(curr_v, i, idx_qry_str, idx);
+            }
+        }
+    }
+
+    return idx;
 }
 
 
-int query_find(int node, int s, int t, int rs, int rt, int x)
+int fgets_wrapper(char str[])
 {
-    if(t < rs or rt < s) return 0;
-
-    if(s == t) {
-        return ((tree[node] % x)? 1 : 0);
+    if(fgets(str, MAXL, stdin) == NULL) {
+        str[0] = '\0';
+        return 0;
     }
 
-    if(rs <= s and t <= rt) {
-        if(tree[node] % x == 0)
-            return 0;
+    int len = strlen(str);
+
+    if(len > 0 and str[len-1] == '\n') {
+        str[len-1] = '\0';
+        --len;
     }
 
-    int left = node << 1, right = left | 1, mid = (s + t) >> 1;
-
-    int q1 = query_find(left, s, mid, rs, rt, x);
-    if(q1 > 1) return q1;
-
-    int q2 = query_find(right, mid+1, t, rs, rt, x);
-    return (q1 + q2);
+    return len;
 }
 
 
@@ -107,37 +124,31 @@ int main()
 {
     //freopen("in.txt", "r", stdin);
 
-    int n;
-    scanf("%d", &n);
+    // Reset trie.
+    trie_size = 0;
+    fill(info, info+MAXN*MAXL, -1);
 
-    build(1, 1, n);
+    // Input dictionary words.
+    char word[MAXL];
+    int len;
+    int word_cnt = 0;
 
-    int q;
-    scanf("%d", &q);
+    while(len = fgets_wrapper(word), len) {
+        strcpy(dict[word_cnt], word);           // Store the word in dictionary.
 
-    while(q--) {
-        int qry_type;
-        scanf("%d", &qry_type);
+        reverse(word, word+len);
 
-        if(qry_type == 1) {
-            int l, r, x;
-            scanf("%d %d %d", &l, &r, &x);
+        trie_insert(word, len, word_cnt);       // Insert the word into trie.
+        ++word_cnt;
+    }
 
-            bool ans = false;
-            int g = query_gcd(1, 1, n, l, r);
+    // Input the query words.
+    while(len = fgets_wrapper(word), len) {
+        reverse(word, word+len);
 
-            if(g % x == 0)
-                ans = true;
-            else
-                ans = query_find(1, 1, n, l, r, x) == 1;
+        int idx = trie_search(word, len);
 
-            puts(ans? "YES" : "NO");
-        }
-        else {
-            int idx, val;
-            scanf("%d %d", &idx, &val);
-            update(1, 1, n, idx, val);
-        }
+        puts(&dict[idx][0]);
     }
 
     return 0;

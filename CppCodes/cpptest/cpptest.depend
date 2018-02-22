@@ -1,4 +1,8 @@
 # depslib dependency file v1.0
-1519162921 source:/home/shahed/ShdHomeData/MyDraftWorks/CppCodes/cpptest/main.cpp
+1519320035 source:/home/shahed/ShdHomeData/MyDraftWorks/CppCodes/cpptest/main.cpp
 	<cstdio>
+	<algorithm>
+	<vector>
+	<cstdlib>
+	<cstring>
 
