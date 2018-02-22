@@ -1,42 +1,57 @@
 // ==================================================
-// Problem  :   Two Strings
-// Score    :   25 /25
+// Problem  :   Triplet Sum in Array
+// Run time :   0.01 sec
 // Language :   C
 // ==================================================
 
 
 #include <stdio.h>
+#include <stdlib.h>
 
 
-const int MAXL = 1e5 + 3;
+const int MAXN = 200 + 3;
 
-enum boolean {FALSE = 0, TRUE};
+
+int cmp(const void *a, const void *b)
+{
+    return ( *(int*)a - *(int*)b );
+}
 
 
 int main()
 {
     //freopen("in.txt", "r", stdin);
 
-    int p;
-    scanf("%d", &p);
+    int t;
+    scanf("%d", &t);
 
-    char str_a[MAXL], str_b[MAXL];
+    int arr[MAXN];
 
-    while(p--) {
-        scanf("%s %s", str_a, str_b);
+    while(t--) {
+        int n, x;
+        scanf("%d %d", &n, &x);
 
-        int letterCount[26 + 3] = {0};
+        for(int i = 0; i < n; ++i)
+            scanf("%d", arr+i);
 
-        for(int i = 0; str_a[i]; ++i)
-            ++letterCount[str_a[i] - 'a'];
+        qsort(arr, n, sizeof(arr[0]), cmp);
 
-        enum boolean ans = FALSE;
+        int found = 0;
 
-        for(int i = 0; str_b[i] && !ans; ++i)
-            if(letterCount[str_b[i] - 'a'])
-                ans = TRUE;
+        for(int i = 0; i < n && !found; ++i) {
+            int need = x - arr[i];
+            int l = i+1, r = n-1;
 
-        puts(ans? "YES" : "NO");
+            while(l < r && !found) {
+                int s = arr[l] + arr[r];
+
+                if(s == need) found = 1;
+                else if(s < need) ++l;
+                else --r;
+            }
+        }
+
+        puts(found? "1" : "0");
     }
 
     return 0;
