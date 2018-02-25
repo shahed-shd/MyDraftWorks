@@ -1,154 +1,65 @@
 // ==================================================
-// Problem  :   2737 - Perfect Rhyme
-// Run time :   2.130 sec.
-// Language :   C++14
+// Problem  :   166 - Making Change
+// Run time :   0.000 sec.
+// Language :   C++11
 // ==================================================
 
 #include <cstdio>
 #include <algorithm>
-#include <vector>
-#include <cstdlib>
-#include <cstring>
+#include <climits>
 using namespace std;
 
 
-const int MAXN = 250000 + 3;
-const int MAXL = 30 + 3;
-const int ALPHABET = 26;
-const int ROOT = 0;
-
-char dict[MAXN][MAXL];
-
-int trie_size;
-int nxt[MAXN*MAXL][ALPHABET];
-int info[MAXN*MAXL];
+const int MAXA = 100 + 3;   // 100 = 500/5
+const int INF = INT_MAX;
+const int coins[] = {1, 2, 4, 10, 20, 40};  // 5c, 10c, 20c, 50c, $1 and $2
+int available_change_coin_cnt[] = {INF, INF, INF, INF, INF, INF};
 
 
-void reset_row(int v)
+int get_coin_count(int amount, int available[])
 {
-    fill(&nxt[v][0], &nxt[v][ALPHABET], 0);
-}
+    int tot_coin_cnt = 0;
 
-
-void trie_insert(char str[], int len, int idx)
-{
-    int v = ROOT;
-
-    for(int i = 0; i < len; ++i) {
-        int &rf = nxt[v][str[i] - 'a'];
-
-        if(rf == 0) {
-            rf = ++trie_size;
-            reset_row(trie_size);
-        }
-
-        v = rf;
-    }
-
-    info[v] = idx;
-}
-
-
-void dfs(int curr_v, int col, int idx_qry_str, int &idx)
-{
-    if(info[curr_v] != -1) {
-        if(info[curr_v] != idx_qry_str) {
-            if(idx == -1 or strcmp(&dict[info[curr_v]][0], &dict[idx][0]) < 0) {
-                idx = info[curr_v];
-            }
+    for(int i = 5; i >= 0; --i) {
+        if(available[i]) {
+            int cnt = min(amount / coins[i], available[i]);
+            amount -= cnt * coins[i];
+            tot_coin_cnt += cnt;
         }
     }
 
-    int nxt_v = nxt[curr_v][col];
-    if(nxt_v == 0) return;
-
-    for(int i = 0; i < ALPHABET; ++i)
-        dfs(nxt_v, i, idx_qry_str, idx);
-}
-
-
-int trie_search(char str[], int len)
-{
-    vector<int> nxt_seq;
-    int v = ROOT;
-    int idx_qry_str = -1;
-
-    for(int i = 0; i < len; ++i) {
-        int &rf = nxt[v][str[i] - 'a'];
-
-        if(rf == 0) {
-            break;
-        }
-
-        v = rf;
-        nxt_seq.push_back(rf);
-
-        if(i == len-1) idx_qry_str = info[v];
-    }
-
-    int idx = -1;
-
-    while(!nxt_seq.empty() and idx == -1) {
-        int curr_v = nxt_seq.back(); nxt_seq.pop_back();
-
-        for(int i = 0; i < ALPHABET; ++i) {
-            if(nxt[curr_v][i] != 0) {
-                dfs(curr_v, i, idx_qry_str, idx);
-            }
-        }
-    }
-
-    return idx;
-}
-
-
-int fgets_wrapper(char str[])
-{
-    if(fgets(str, MAXL, stdin) == NULL) {
-        str[0] = '\0';
-        return 0;
-    }
-
-    int len = strlen(str);
-
-    if(len > 0 and str[len-1] == '\n') {
-        str[len-1] = '\0';
-        --len;
-    }
-
-    return len;
+    return (amount == 0)? tot_coin_cnt : INF;
 }
 
 
 int main()
 {
     //freopen("in.txt", "r", stdin);
+    //freopen("out.txt", "w", stdout);
 
-    // Reset trie.
-    trie_size = 0;
-    fill(info, info+MAXN*MAXL, -1);
+    int a[6];
 
-    // Input dictionary words.
-    char word[MAXL];
-    int len;
-    int word_cnt = 0;
+    while(scanf("%d %d %d %d %d %d", a, a+1, a+2, a+3, a+4, a+5), a[0] or a[1] or a[2] or a[3] or a[4] or a[5]) {
+        double input_amount;
+        scanf("%lf", &input_amount);
 
-    while(len = fgets_wrapper(word), len) {
-        strcpy(dict[word_cnt], word);           // Store the word in dictionary.
+        int amount = input_amount * 20;     // input_amount * 100 / 5;
 
-        reverse(word, word+len);
+        int tot_available_amount = 0;
+        for(int i = 0; i < 6; ++i)
+            tot_available_amount += coins[i] * a[i];
 
-        trie_insert(word, len, word_cnt);       // Insert the word into trie.
-        ++word_cnt;
-    }
+        int min_coin_cnt = INF;
 
-    // Input the query words.
-    while(len = fgets_wrapper(word), len) {
-        reverse(word, word+len);
+        for(int i = amount; i <= tot_available_amount; ++i) {
+            int pay_coin_cnt = get_coin_count(i, a);
+            int change_coin_cnt = get_coin_count(i - amount, available_change_coin_cnt);
 
-        int idx = trie_search(word, len);
+            if(pay_coin_cnt != INF and change_coin_cnt != INF)
+                min_coin_cnt = min(min_coin_cnt, pay_coin_cnt + change_coin_cnt);
+        }
 
-        puts(&dict[idx][0]);
+        printf("%3d\n", min_coin_cnt);
     }
 
     return 0;
