@@ -50,7 +50,7 @@ def main():
 		cnt += 1
 
 	print("                         ------")
-	print("                          %d (Total credit)" % (tot_credit))
+	print("                          %.2f (Total credit)" % (tot_credit))
 
 	print("Your CGPA %.2f" % (s / tot_credit))
 
