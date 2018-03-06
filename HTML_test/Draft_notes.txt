@@ -1,0 +1,21 @@
+# HTML tags are element names surrounded by angle brackets:
+
+# The <!DOCTYPE> declaration is not case sensitive.
+
+#
+Version 	Year
+HTML 		1991
+HTML 2.0 	1995
+HTML 3.2 	1997
+HTML 4.01 	1999
+XHTML 		2000
+HTML5 		2014
+
+# UTF-8 is the preferred encoding for HTML files.
+
+# HTML elements with no content are called empty elements. Empty elements do not have an end tag
+
+# HTML tags are not case sensitive.
+
+# List of HTML attributes:
+https://www.w3schools.com/tags/ref_attributes.asp
