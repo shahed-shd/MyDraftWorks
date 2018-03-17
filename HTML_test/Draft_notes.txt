@@ -19,3 +19,10 @@ HTML5 		2014
 
 # List of HTML attributes:
 https://www.w3schools.com/tags/ref_attributes.asp
+
+# HTML supports 140 standard color names.
+
+# CSS can be added to HTML elements in 3 ways:
+    Inline - by using the style attribute in HTML elements
+    Internal - by using a <style> element in the <head> section
+    External - by using an external CSS file
