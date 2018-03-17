@@ -1,0 +1,9 @@
+h1 {
+    border: 2px solid yellow;
+    padding: 30px;
+}
+
+body {
+    background-image: url('../Images/Open_horizon.jpg');
+    background-repeat: repeat-y;
+}
