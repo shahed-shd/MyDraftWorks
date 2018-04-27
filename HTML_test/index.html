@@ -4,28 +4,91 @@
 <head>
 	<title> Page Title </title>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=5.0">
 	<link rel="stylesheet" href="CSS/styles.css">
 </head>
 
 <body>
+	<!-- Headers can be: h1 h2 h3 h4 h5 h6 -->
 	<h1> This is a heading </h1>
-	<p title="it's para title"> This is a paragraph </p>
-	<p> This is <sub>another paragraph</sub> </p>
-	<p> This is <i>another paragraph</i> </p>
 
+	<!-- Elements can csontain attributes -->
+	<p title="it's paragraphe with title attribute"> This is a paragraph </p>
+
+	<!-- Links can be implemented with anchor tag -->
 	<p>
 		You can find
-		<a href="https://m.facebook.com" target="_blank">
-			Here's a link
-		</a>
+		<a href="https://google.com" target="_blank">Here's a link</a>
 	</p>
 
+	<!-- Images can be nested in anchor tag -->
 	<a href="https://www.google.com">
 		<img src="Images/Hanging_light.jpg" alt="Hanging Light" style="width: 200px; height: 100px; border: 100;">
 	</a>
 	<br>
 
+	<!-- Listing -->
+	<ol type="I">
+		<li>aaa</li>
+		<li>bbb</li>
+		<li>ccc</li>
+	</ol>
+
+	<!-- Button -->
+	<button type="button" onclick="my_fn()">Click me</button>
+	<p id="demo"> Here is something hidden </p>
+
+	<script>
+	
+	var x = 0;
+
+	function my_fn() {
+		if(x % 2 == 0) {
+			document.getElementById("demo").innerHTML = "Hi JS JS";
+		}
+		else {
+			document.getElementById("demo").innerHTML = "Hi JS";
+		}
+		x = x + 1;
+	}
+	</script>
+
+	<!-- Entities -->
+	<p>&hearts;</p>
+	<!-- Entities with number -->
+	<p>&#159;</p>
+
+	<div id="strg"></div>
+
+	<script>
+		if(typeof(Storage) !== "undefined") {
+			document.getElementById("strg").innerHTML = "YES";
+		}
+		else {
+			document.getElementById("strg").innerHTML = "No";
+		}
+		
+	</script>
+	
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
 	<blockquote> This is a text </blockquote>
 
 </body>
