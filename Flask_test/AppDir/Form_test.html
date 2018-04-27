@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <!-- method="POST" will call another function -->
+    <form action="http://localhost:5000/form_test" target="_blank" method="POST">
+        <label>First Name:
+            <input type="text" name="user_fname" />
+        </label>
+        <br/>
+        <label>Last Name:
+            <input type="text" name="user_lname" />
+        </label>
+        <br/>
+        <input type="submit" value="Sumbit">
+        <input type="reset" value="Reset">
+    </form>
+
+    <br/>
+    <br/>
+
+    <form action="http://localhost:5000/upload_test", target="_blank" method="POST" enctype="multipart/form-data">
+        <label> Choose a file to upload:
+            <input type="file" name="uploaded_file" multiple/>
+        </label>
+        <input type="submit" value="Upload">
+    </form>
+</body>
+</html>
