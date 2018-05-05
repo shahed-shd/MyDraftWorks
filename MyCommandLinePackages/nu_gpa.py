@@ -44,13 +44,13 @@ def main():
 
 	parser.add_argument('-n', dest='tot_sub', type=int, required=True, metavar='N', help="Number of subjects.")
 
-	parser.add_argument('-g', dest='letter_grades', metavar='LETTER_GRADE', nargs='+', type=str, choices=('A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'D', 'F'), help="Obtained letter grade of the subjects.")
-	parser.add_argument('-c', dest='credits', metavar='CREDIT', nargs='+', type=float, help="Credit of the subjects respectively.")
+	parser.add_argument('-g', dest='letter_grades', metavar='LETTER_GRADE', nargs='+', type=str, required=True, choices=('A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'D', 'F'), help="Obtained letter grade of the subjects.")
+	parser.add_argument('-c', dest='credits', metavar='CREDIT', nargs='+', type=float, required=True, help="Credit of the subjects respectively.")
 
 	args = parser.parse_args()
 
 	if len(args.letter_grades) != args.tot_sub or len(args.credits) != args.tot_sub:
-		print("There must be exactly %d letter grades with creditss." % (args.tot_sub))
+		print("There must be exactly %d letter grades with credits." % (args.tot_sub))
 		exit()
 
 	s = 0
