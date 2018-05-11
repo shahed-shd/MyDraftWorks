@@ -1,0 +1,173 @@
+import datetime
+import logging
+import sys
+
+from sqlalchemy import create_engine, Table, Column, Integer, String, ForeignKey, text
+from sqlalchemy.dialects.mysql import DATETIME
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship, sessionmaker
+from sqlalchemy.orm.exc import NoResultFound
+
+
+# -------------------- Logging --------------------
+logLeve = logging.DEBUG
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logLeve)
+
+# create a file/stream handler
+# handler = logging.FileHandler('Hello.log')
+handler = logging.StreamHandler(sys.stdout)
+handler.setLevel(logLeve)
+
+# create a logging format
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+handler.setFormatter(formatter)
+
+# add the handlers to the logger
+logger.addHandler(handler)
+# -------------------- Logger OK --------------------
+
+
+engine = create_engine('mysql+pymysql://root:abcd1234@localhost/rest_api_test', echo=True)
+Base = declarative_base()
+
+
+class User(Base):
+    __table__ = Table('users', Base.metadata,
+                    Column('userid', Integer, primary_key=True),
+                    Column('firstname', String(25)),
+                    Column('lastname', String(25)),
+                    Column('password', String(25)))
+
+    tags = relationship('Id_tag_expiry', back_populates='user')
+
+    def __init__(self, userid, fname,lname, pw):
+        self.userid = userid if userid else get_next_free_id()
+        self.firstname = fname
+        self.lastname = lname
+        self.password = pw
+
+
+    def __repr__(self):
+        return "<User(userid={}, firstname={}, lastname={})>".format(self.userid, self.firstname, self.lastname)
+
+
+class Id_tag_expiry(Base):
+    __table__ = Table('id_tag_expiry', Base.metadata,
+                    Column('userid', Integer, ForeignKey('users.userid', onupdate='CASCADE', ondelete='CASCADE'), primary_key=True),
+                    Column('tag', String(25), primary_key=True),
+                    Column('expiry', DATETIME(fsp=6)))
+
+    user = relationship('User', back_populates='tags')
+
+
+    def __init__(self, userid, tag, expiry):
+        self.userid = userid
+        self.tag = tag
+        self.expiry = expiry
+
+
+    def __repr__(self):
+        return "<Id_tag_expiry(userid={}, tag={}, expiry={})>".format(self.userid, self.tag, self.expiry)
+
+
+Base.metadata.create_all(engine)
+Session = sessionmaker(bind=engine)
+session = Session()
+
+
+def get_expiry_time(milliseconds):
+    '''Returns the expiry time from millisecond'''
+    microseconds = milliseconds * 1000
+    return datetime.datetime.now() + datetime.timedelta(microseconds=microseconds)
+
+
+def get_next_free_id():
+    '''Returns the next id to be used. Also checks gap in the sequence of "users.id" .'''
+
+    sql_cmd = text('''SELECT MIN(a.userid + 1) AS next
+    FROM users AS a
+    LEFT OUTER JOIN users AS b
+    ON a.userid + 1 = b.userid
+    WHERE b.userid IS NULL;''')
+
+    qry_res = engine.execute(sql_cmd)
+    next_id = qry_res.fetchone()[0]
+    # If the "users" table is empty, next_id will be None. In that case, id starts from 1.
+    next_id = next_id if next_id else 1
+
+    logger.debug("next_id: {}".format(next_id))
+    return next_id
+
+
+def add_user(fname, lname, pw):
+    '''Inserts a user into the "users" table by checking next free id.
+    It returns the newly added user's user-id.'''
+
+    usr = User(None, fname, lname, pw)
+    new_usr_id = usr.userid
+    session.add(usr)
+    session.commit()
+
+    logger.info("{} added.".format(usr))
+    return new_usr_id
+
+
+def get_user_name(userid):
+    '''Receives userid and returns firstname, lastname.'''
+
+    name = None
+
+    try:
+        name = session.query(User.firstname, User.lastname).filter(User.userid == userid).one()
+        logger.debug("User with userid {} is found and names returned.".format(userid))
+    except:
+        logger.debug("User with userid {} doesn't exist.".format(userid))
+
+    return name
+
+
+def add_tag(userid, tags, expiry):
+    '''Add tags and expriy to the userid.
+    'tags' is an iterable of tags to add, 'expiry' is in millisecond.'''
+
+    try:
+        session.query(User.userid).filter(User.userid == userid).one()
+    except NoResultFound:
+        return False
+
+    expiry_time = get_expiry_time(expiry)
+    for tag in tags:
+        obj = Id_tag_expiry(userid, tag, expiry_time)
+        session.merge(obj)
+    session.commit()
+
+    return True
+
+
+def get_userid_by_tags(tag_list):
+    '''Returns the users' userid, name, tags quiring by tags'''
+
+    qry_res = session.query(Id_tag_expiry.userid).filter(Id_tag_expiry.tag.in_(tag_list)).distinct(Id_tag_expiry.userid).all()
+    userid_list = [tpl[0] for tpl in qry_res]
+
+    return userid_list
+
+
+def get_user_info_by_userids(userid_list):
+    '''Returns userid, name, tags quiring by userid'''
+
+    qry_res = session.query(User).filter(User.userid.in_(userid_list)).all()
+    info_list = [(user.userid, user.firstname, user.lastname, [tg.tag for tg in user.tags]) for user in qry_res]
+
+    return info_list
+
+
+# get_next_free_id()
+# add_user('f5', 'l5', 'p5')
+# print(get_user_name(33))
+# print(add_tag(2, ['tg23-1', 'tg23-2'], 10*60*1000))
+# print(add_tag(3, ['tg23-1', 'tg23-2'], 50*60*1000))
+# get_userid_by_tags(['tg23-1', 'tg34-1'])
+# get_user_info_by_userids([2, 3, 4])
