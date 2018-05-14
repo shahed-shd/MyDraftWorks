@@ -1,7 +1,9 @@
+# Importing from python standard library.
 import datetime
 import logging
 import sys
 
+# Importing from sqlalchemy.
 from sqlalchemy import create_engine, Table, Column, Integer, String, ForeignKey, text
 from sqlalchemy.dialects.mysql import DATETIME
 from sqlalchemy.ext.declarative import declarative_base
@@ -43,6 +45,7 @@ class User(Base):
     tags = relationship('Id_tag_expiry', back_populates='user')
 
     def __init__(self, userid, fname,lname, pw):
+        '''Initialize with given parameters. If userid is None, then suitable user id will be assigned to userid.'''
         self.userid = userid if userid else get_next_free_id()
         self.firstname = fname
         self.lastname = lname
@@ -63,6 +66,7 @@ class Id_tag_expiry(Base):
 
 
     def __init__(self, userid, tag, expiry):
+        '''Initialize with given parameters.'''
         self.userid = userid
         self.tag = tag
         self.expiry = expiry
@@ -78,13 +82,13 @@ session = Session()
 
 
 def get_expiry_time(milliseconds):
-    '''Returns the expiry time from millisecond'''
+    '''Returns the expiry time from millisecond.'''
     microseconds = milliseconds * 1000
     return datetime.datetime.now() + datetime.timedelta(microseconds=microseconds)
 
 
 def get_next_free_id():
-    '''Returns the next id to be used. Also checks gap in the sequence of "users.id" .'''
+    '''Returns the next id to be used. Also checks gap in the sequence of users.id .'''
 
     sql_cmd = text('''SELECT MIN(a.userid + 1) AS next
     FROM users AS a
@@ -101,6 +105,15 @@ def get_next_free_id():
     return next_id
 
 
+def does_userid_exist(userid):
+    '''Checks whether userid exists or not. Returns True if userid found, False otherwise.'''
+
+    try:
+        session.query(User.userid).filter(User.userid == userid).one()
+    except NoResultFound:
+        return False
+    return True
+
 def add_user(fname, lname, pw):
     '''Inserts a user into the "users" table by checking next free id.
     It returns the newly added user's user-id.'''
@@ -115,7 +128,7 @@ def add_user(fname, lname, pw):
 
 
 def get_user_name(userid):
-    '''Receives userid and returns firstname, lastname.'''
+    '''Receives userid and returns firstname, lastname. Returns None if userid doesn't exist.'''
 
     name = None
 
@@ -129,45 +142,32 @@ def get_user_name(userid):
 
 
 def add_tag(userid, tags, expiry):
-    '''Add tags and expriy to the userid.
-    'tags' is an iterable of tags to add, 'expiry' is in millisecond.'''
+    '''Add tags and expriy to the userid. 'tags' is an iterable of tags to add, 'expiry' is in millisecond.
+    Returns True on success, False otherwise.'''
 
-    try:
-        session.query(User.userid).filter(User.userid == userid).one()
-    except NoResultFound:
-        return False
-
-    expiry_time = get_expiry_time(expiry)
-    for tag in tags:
-        obj = Id_tag_expiry(userid, tag, expiry_time)
-        session.merge(obj)
-    session.commit()
-
-    return True
+    if does_userid_exist(userid):
+        expiry_time = get_expiry_time(expiry)
+        for tag in tags:
+            obj = Id_tag_expiry(userid, tag, expiry_time)
+            session.merge(obj)
+        session.commit()
+        return True
+    return False
 
 
 def get_userid_by_tags(tag_list):
-    '''Returns the users' userid, name, tags quiring by tags'''
+    '''Returns the users' userid, name, tags quering by tags.'''
 
-    qry_res = session.query(Id_tag_expiry.userid).filter(Id_tag_expiry.tag.in_(tag_list)).distinct(Id_tag_expiry.userid).all()
+    qry_res = session.query(Id_tag_expiry.userid).filter(Id_tag_expiry.tag.in_(tag_list)).filter(Id_tag_expiry.expiry >= datetime.datetime.now()).distinct(Id_tag_expiry.userid).all()
     userid_list = [tpl[0] for tpl in qry_res]
 
     return userid_list
 
 
 def get_user_info_by_userids(userid_list):
-    '''Returns userid, name, tags quiring by userid'''
+    '''Returns userid, name, tags of all users quering by a list of userid.'''
 
     qry_res = session.query(User).filter(User.userid.in_(userid_list)).all()
     info_list = [(user.userid, user.firstname, user.lastname, [tg.tag for tg in user.tags]) for user in qry_res]
 
     return info_list
-
-
-# get_next_free_id()
-# add_user('f5', 'l5', 'p5')
-# print(get_user_name(33))
-# print(add_tag(2, ['tg23-1', 'tg23-2'], 10*60*1000))
-# print(add_tag(3, ['tg23-1', 'tg23-2'], 50*60*1000))
-# get_userid_by_tags(['tg23-1', 'tg34-1'])
-# get_user_info_by_userids([2, 3, 4])
