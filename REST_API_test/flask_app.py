@@ -4,9 +4,13 @@ import model
 # Importing from python standard library.
 import json
 from http import HTTPStatus
+import datetime
 
 # Importing from flask
 from flask import Flask, url_for, request, make_response
+
+#Importing from apscheduler
+from apscheduler.schedulers.background import BackgroundScheduler
 
 
 app = Flask(__name__)
@@ -86,8 +90,24 @@ def get_users_by_tags():
         return ('', HTTPStatus.METHOD_NOT_ALLOWED)
 
 
+def periodically_do():
+    '''It's called in a regular interval which is defined in scheduler.
+    The duration of interval can be modified in scheduler.add_job().'''
+
+    model.delete_expired_tags()
+
+
 def main():
+    scheduler = BackgroundScheduler()
+    scheduler.add_job(periodically_do, 'interval', seconds=2*60*60)     # interval of 2 hours.
+
+    scheduler.start()   # Now, expired tags will be checked and deleted in the regular interval.
+    app.logger.debug("Scheduler started.")
+
     app.run(debug=True)
+
+    scheduler.shutdown()
+    app.logger.debug("Scheduler shutdown done.")
 
 
 if __name__ == '__main__':
