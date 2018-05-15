@@ -171,3 +171,11 @@ def get_user_info_by_userids(userid_list):
     info_list = [(user.userid, user.firstname, user.lastname, [tg.tag for tg in user.tags]) for user in qry_res]
 
     return info_list
+
+
+def delete_expired_tags():
+    '''Deletes the expired tags.'''
+
+    session.query(Id_tag_expiry).filter(Id_tag_expiry.expiry < datetime.datetime.now()).delete()
+    session.commit()
+    logger.debug("delete_expired_tags() is called.")
