@@ -13,11 +13,12 @@ rest_api_test is the name of the database to be connected.
 No need to create any table in the database.
 "model.py" will create the database tables according to its necessity.
 
-Finally, Just need to run "flask_app.py" to get ready for responses to requests.
+Finally, Just need to run "flask_app.py" to get ready for responses to HTTP requests.
 
 Dependencies:
 - python (3.5.2)
 - flask (1.0.2)
+- mysql (5.7.22-0ubuntu0.16.04.1)
 - sqlalchemy (1.2.7)
 - pymysql (0.8.1)
 - apscheduler (3.5.1)
