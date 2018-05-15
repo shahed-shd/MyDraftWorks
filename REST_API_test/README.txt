@@ -14,6 +14,7 @@ No need to create any table in the database.
 "model.py" will create the database tables according to its necessity.
 
 Finally, Just need to run "flask_app.py" to get ready for responses to HTTP requests.
+Flask will run in localhost, one can modify it in source code.
 
 Dependencies:
 - python (3.5.2)
@@ -22,5 +23,3 @@ Dependencies:
 - sqlalchemy (1.2.7)
 - pymysql (0.8.1)
 - apscheduler (3.5.1)
-
-These can be installed using pip.
