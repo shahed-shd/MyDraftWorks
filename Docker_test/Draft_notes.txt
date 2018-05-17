@@ -10,55 +10,67 @@ http://bit.ly/2EFncwQ (জ্যাঙ্গো এবং ডকার (পর�
 
 https://medium.com/%E0%A6%AA%E0%A7%8D%E0%A6%B0%E0%A7%8B%E0%A6%97%E0%A7%8D%E0%A6%B0%E0%A6%BE%E0%A6%AE%E0%A6%BF%E0%A6%82-%E0%A6%AA%E0%A6%BE%E0%A6%A4%E0%A6%BE/%E0%A6%85%E0%A6%B2%E0%A7%8D%E0%A6%AA-%E0%A6%95%E0%A6%A5%E0%A6%BE%E0%A7%9F-%E0%A6%B8%E0%A7%8D%E0%A6%AC%E0%A6%B2%E0%A7%8D%E0%A6%AA-docker-12f7c225e8ee
 
-# ---------- Get started : Part 1 ----------
+https://www.katacoda.com/courses/docker
+https://hackr.io/tutorials/learn-docker
+https://www.quora.com/What-are-the-best-free-resources-to-learn-Docker
+https://www.edureka.co/blog/docker-container/
+https://www.tutorialspoint.com/docker/docker_quick_guide.htm
 
-## List Docker CLI commands
-docker
-docker container --help
 
-## Display Docker version and info
-docker --version
-docker version
-docker info
+## Docker Commands
+docker --version    # Display docker version.
+docker version      # Display docker client and server version.
+docker info         # Display system-wide information
 
-## Excecute Docker image
-docker run hello-world
+docker                      # List Docker CLI commands
+docker container --help     # List docker commands related to container.
+docker image --help         # List docker commands related to image.
 
-## List Docker images
-docker image ls
-
-## List Docker containers (running, all, all in quiet mode)
-docker container ls
-docker ps
-docker container ls -all
-docker container ls -a -q
-
-# ---------- Get started : Part 2 ----------
-
-docker build -t friendlyhello .  # Create image using this directory's Dockerfile
-docker run -p 4000:80 friendlyhello  # Run "friendlyname" mapping port 4000 to 80
+docker run <image>          # Excecute Docker image
+docker run –it Ubuntu bash	# -it options for Interactive tty of Ubuntu
+docker run -p 4000:80 friendlyhello  # Run "friendlyhello" mapping port 4000 to 80
 docker run -d -p 4000:80 friendlyhello         # Same thing, but in detached mode
-docker container ls                                # List all running containers
-docker container ls -a             # List all containers, even those not running
-docker container stop <hash>           # Gracefully stop the specified container
-docker container kill <hash>         # Force shutdown of the specified container
-docker container rm <hash>        # Remove specified container from this machine
-docker container rm $(docker container ls -a -q)         # Remove all containers
-docker image ls -a                             # List all images on this machine
+docker image ls             # List docker images
+docker image ls -a          # List all images on this machine
 docker image rm <image id>            # Remove specified image from this machine
 docker image rm $(docker image ls -a -q)   # Remove all images from this machine
+
+docker container ls             # List docker running containers
+docker ps                       # Alias of 'docker container ls'
+docker container ls -q          # List container IDs
+docker container ls -a          # List docker all containers
+docker container pause ContainerID  # To pause the processes in a running container.
+docker pause ContainerID            # Same as above.
+docker container unpause ContainerID	# To unpause the processes in a running container.
+docker unpause ContainerID	    # Same as above.
+docker container stop <hash>    # Gracefully stop the specified container
+docker container kill <hash>    # Forcefully shutdown of the specified container
+docker container rm <hash>      # Remove specified container from this machine
+docker container rm $(docker container ls -a -q)         # Remove all containers
+docker container attach ContainerID     # To attach to a running container.
+docker attach ContainerID	            # Same as above.
+
+docker history <imageID>	            # Shows the history of the image.
+docker inspect <task or container>      # Inspect task or container
+docker stats ContainerID	# Statistics of a running container
+docker top ContainerID		# See the top processes within a container.
+
+service docker start    # To start the Docker daemon process.
+service docker stop     # To stop the Docker daemon process.
+
+
+
+docker build -t friendlyhello .  # Create image using this directory's Dockerfile
+
 docker login             # Log in this CLI session using your Docker credentials
 docker tag <image> username/repository:tag  # Tag <image> for upload to registry
 docker push username/repository:tag            # Upload tagged image to registry
 docker run username/repository:tag                   # Run image from a registry
 
-
-# ---------- Get started : Part 3 ----------
 docker stack ls                                            # List stacks or apps
 docker stack deploy -c <composefile> <appname>  # Run the specified Compose file
 docker service ls                 # List running services associated with an app
 docker service ps <service>                  # List tasks associated with an app
-docker inspect <task or container>                   # Inspect task or container
-docker container ls -q                                      # List container IDs
 docker stack rm <appname>                             # Tear down an application
 docker swarm leave --force      # Take down a single node swarm from the manager
+
