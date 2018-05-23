@@ -1,0 +1,71 @@
+# Integer
+data_integer: 123
+
+# Float
+data_float_impli: 123.456
+data_float_expli: !!float 123     # Explicitly data typing
+
+# Bool
+data_boolean: yes              # Values can be: true, false, yes, no, on, off.
+                                # Values can be UPPERCASE, lowercase, First letter capital
+                                # Like: TRUE, true, True
+
+# Strings can be unquoted, single quoted, double quoted.
+# Single line string
+single line str: This is a string, it's in single line.
+str_expli: !!str 123            # Explicitly data typing, it's a string '123'
+
+# Multiline string, doesnt fold newlines.
+multiline str one: |
+    This is a
+    multiline string
+    which doesn't fold the newlines.
+        This is a para.
+
+    There's a blank line above
+    this line.
+
+# Multiline string, folds newlines.
+# Folded text converts newlines to spaces and removes leading whitespace
+multiline str two: >
+    This is a
+    multiline string
+    which folds the newlines.
+        This is a para.
+
+    There's a blank line above
+    this line.
+
+# List block
+my list one:
+    - a
+    - b
+
+# List inline
+my list two: [x, y]
+
+# Associative array block
+my dict one:
+    aa : xx
+    bb : yy
+
+# Associative array inline
+my dict two: {aaa: xxx, bbb: yyy}
+
+# Anchoring and referencing
+node_a: &id001    # Defines anchor label &id001
+    a: 1
+    b: 2.3
+    c: [k, kk, kkk]
+
+node_b: *id001  # Refers to node_a (with anchor &id001)
+node_c:
+    <<: *id001
+    b: 222.333  # Redefines just this key, refers rest from &id001
+
+# User defined data type
+myObj: !myclass { name: "Shahed", gender: "Male" }
+
+myObj2: !myclass
+    name: "Arham"
+    gender: "Male"
