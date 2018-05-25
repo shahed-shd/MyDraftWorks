@@ -51,21 +51,37 @@ docker container attach ContainerID     # To attach to a running container.
 docker attach ContainerID	            # Same as above.
 
 docker history <imageID>	            # Shows the history of the image.
-docker inspect <task or container>      # Inspect task or container
+docker inspect <container or image>     # Inspect container or image.
 docker stats ContainerID	# Statistics of a running container
 docker top ContainerID		# See the top processes within a container.
+docker logs containerID     # To see the logs of the container
 
 service docker start    # To start the Docker daemon process.
 service docker stop     # To stop the Docker daemon process.
 
+docker build -t ImageName:TagName dir 	# To build image with tag from a docker file which is in <dir>
+docker build -t="tagname" dir           # Build image with a tagname from dokcer file in <dir>
 
-
-docker build -t friendlyhello .  # Create image using this directory's Dockerfile
-
-docker login             # Log in this CLI session using your Docker credentials
+docker login             # Log in this CLI session using one's Docker credentials
 docker tag <image> username/repository:tag  # Tag <image> for upload to registry
-docker push username/repository:tag            # Upload tagged image to registry
-docker run username/repository:tag                   # Run image from a registry
+docker tag <imageID> localhost:5000/reponame    # Host the image in localhost port 5000 and reponame will be the private repository's name
+docker push username/repository:tag         # Upload tagged image to registry
+docker pull username/repository:tag         # Pull the repository from dockerhub.
+docker pull <image>                         # Pull the image from dockerhub.
+docker run username/repository:tag          # Run image from a registry
+
+docker volume ls        # List all the docker volumes on a docker host
+docker network ls        # list all the networks associated with Docker on the host
+
+Ctrl+P+Q 	# Shortcut to exit out the container which still exists even after we exit from the container.
+
+## Docker instruction commands
+CMD command param1              # To execute a command at runtime when the container is executed
+ENTRYPOINT command param1       # To execute a command at runtime when the container is launched
+ENV var1=value1 var2=value2     # To set environment variables in the container
+WORKDIR dirname                 # To set the working directory of the container. If <dirname> directory does not exist, it will be added.
+
+---------------
 
 docker stack ls                                            # List stacks or apps
 docker stack deploy -c <composefile> <appname>  # Run the specified Compose file
