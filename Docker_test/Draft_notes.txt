@@ -39,6 +39,8 @@ docker container ls             # List docker running containers
 docker ps                       # Alias of 'docker container ls'
 docker container ls -q          # List container IDs
 docker container ls -a          # List docker all containers
+docker container start ContainerID	# To start a container
+docker container start ContainerID	# To restart a container
 docker container pause ContainerID  # To pause the processes in a running container.
 docker pause ContainerID            # Same as above.
 docker container unpause ContainerID	# To unpause the processes in a running container.
@@ -81,7 +83,11 @@ ENTRYPOINT command param1       # To execute a command at runtime when the conta
 ENV var1=value1 var2=value2     # To set environment variables in the container
 WORKDIR dirname                 # To set the working directory of the container. If <dirname> directory does not exist, it will be added.
 
----------------
+--------------- docker-compose ---------------
+
+docker-compose -version     # To get the docker-compose version
+docker-compose version      # Details of the version
+docker-compose up			# To take the docker-compose.yml file in your local directory and start building the containers.
 
 docker stack ls                                            # List stacks or apps
 docker stack deploy -c <composefile> <appname>  # Run the specified Compose file
