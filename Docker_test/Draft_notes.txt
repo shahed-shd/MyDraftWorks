@@ -16,6 +16,7 @@ https://www.quora.com/What-are-the-best-free-resources-to-learn-Docker
 https://www.edureka.co/blog/docker-container/
 https://www.tutorialspoint.com/docker/docker_quick_guide.htm
 
+https://docs.docker.com/engine/reference/builder/
 
 ## Docker Commands
 docker --version    # Display docker version.
@@ -78,10 +79,16 @@ docker network ls        # list all the networks associated with Docker on the h
 Ctrl+P+Q 	# Shortcut to exit out the container which still exists even after we exit from the container.
 
 ## Docker instruction commands
-CMD command param1              # To execute a command at runtime when the container is executed
-ENTRYPOINT command param1       # To execute a command at runtime when the container is launched
-ENV var1=value1 var2=value2     # To set environment variables in the container
-WORKDIR dirname                 # To set the working directory of the container. If <dirname> directory does not exist, it will be added.
+ARG
+FROM
+LABEL
+EXPOSE
+ENV
+ADD
+RUN
+ENTRYPOINT
+CMD
+WORKDIR
 
 --------------- docker-compose ---------------
 
@@ -95,4 +102,3 @@ docker service ls                 # List running services associated with an app
 docker service ps <service>                  # List tasks associated with an app
 docker stack rm <appname>                             # Tear down an application
 docker swarm leave --force      # Take down a single node swarm from the manager
-
