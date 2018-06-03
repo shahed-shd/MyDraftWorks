@@ -1,4 +1,5 @@
-## Links to learn
+# --------------- Resource links ---------------
+
 http://training.play-with-docker.com/dev-landing/
 https://docs.docker.com
 
@@ -9,33 +10,61 @@ http://bit.ly/2EDqujX (ওয়েব ডেভেলপমেন্ট ও ডক
 http://bit.ly/2EFncwQ (জ্যাঙ্গো এবং ডকার (পর্ব ১))
 
 https://medium.com/%E0%A6%AA%E0%A7%8D%E0%A6%B0%E0%A7%8B%E0%A6%97%E0%A7%8D%E0%A6%B0%E0%A6%BE%E0%A6%AE%E0%A6%BF%E0%A6%82-%E0%A6%AA%E0%A6%BE%E0%A6%A4%E0%A6%BE/%E0%A6%85%E0%A6%B2%E0%A7%8D%E0%A6%AA-%E0%A6%95%E0%A6%A5%E0%A6%BE%E0%A7%9F-%E0%A6%B8%E0%A7%8D%E0%A6%AC%E0%A6%B2%E0%A7%8D%E0%A6%AA-docker-12f7c225e8ee
+http://goinbigdata.com/docker-run-vs-cmd-vs-entrypoint/
+http://container-solutions.com/understanding-volumes-docker/
 
 https://www.katacoda.com/courses/docker
 https://hackr.io/tutorials/learn-docker
 https://www.quora.com/What-are-the-best-free-resources-to-learn-Docker
 https://www.edureka.co/blog/docker-container/
+
 https://www.tutorialspoint.com/docker/docker_quick_guide.htm
-
 https://docs.docker.com/engine/reference/builder/
+https://docs.docker.com/develop/develop-images/dockerfile_best-practices/
 
-## Docker Commands
+
+# --------------- Docker Commands ---------------
+
+# Version and info
 docker --version    # Display docker version.
 docker version      # Display docker client and server version.
 docker info         # Display system-wide information
 
+# Help
 docker                      # List Docker CLI commands
 docker container --help     # List docker commands related to container.
 docker image --help         # List docker commands related to image.
 
+# Observe
+docker search [OPTIONS] TERM    # Search the Docker Hub for images
+docker history <imageID>	            # Shows the history of the image.
+docker inspect <container or image>     # Inspect container or image.
+docker stats ContainerID	# Statistics of a running container
+docker top ContainerID		# See the top processes within a container.
+docker logs containerID     # To see the logs of the container.
+docker port CONTAINER [PRIVATE_PORT[/PROTO]]    # List port mappings or a specific mapping for the container.
+
+# Volume
+docker volume ls                # To list volumes.
+docker volume rm <volume-name>  # To remove a volume.
+
+# Network
+docker network ls        # list all the networks associated with Docker on the host
+
+# Running image
 docker run <image>          # Excecute Docker image
 docker run –it Ubuntu bash	# -it options for Interactive tty of Ubuntu
 docker run -p 4000:80 friendlyhello  # Run "friendlyhello" mapping port 4000 to 80
-docker run -d -p 4000:80 friendlyhello         # Same thing, but in detached mode
+docker run -d -p 4000:80 friendlyhello      # Same thing, but in detached mode
+docker run username/repository:tag          # Run image from a registry
+
+# Image
 docker image ls             # List docker images
 docker image ls -a          # List all images on this machine
 docker image rm <image id>            # Remove specified image from this machine
 docker image rm $(docker image ls -a -q)   # Remove all images from this machine
 
+# Container
 docker container ls             # List docker running containers
 docker ps                       # Alias of 'docker container ls'
 docker container ls -q          # List container IDs
@@ -53,52 +82,52 @@ docker container rm $(docker container ls -a -q)         # Remove all containers
 docker container attach ContainerID     # To attach to a running container.
 docker attach ContainerID	            # Same as above.
 
-docker history <imageID>	            # Shows the history of the image.
-docker inspect <container or image>     # Inspect container or image.
-docker stats ContainerID	# Statistics of a running container
-docker top ContainerID		# See the top processes within a container.
-docker logs containerID     # To see the logs of the container
-
+# Start or stop docker
 service docker start    # To start the Docker daemon process.
 service docker stop     # To stop the Docker daemon process.
 
+# Build image from Dockerfile
 docker build -t ImageName:TagName dir 	# To build image with tag from a docker file which is in <dir>
 docker build -t="tagname" dir           # Build image with a tagname from dokcer file in <dir>
 
+# Dockerhub
 docker login             # Log in this CLI session using one's Docker credentials
-docker tag <image> username/repository:tag  # Tag <image> for upload to registry
+docker tag <image> username/repository:tag      # Tag <image> for upload to registry
 docker tag <imageID> localhost:5000/reponame    # Host the image in localhost port 5000 and reponame will be the private repository's name
 docker push username/repository:tag         # Upload tagged image to registry
 docker pull username/repository:tag         # Pull the repository from dockerhub.
 docker pull <image>                         # Pull the image from dockerhub.
-docker run username/repository:tag          # Run image from a registry
 
-docker volume ls        # List all the docker volumes on a docker host
-docker network ls        # list all the networks associated with Docker on the host
-
-Ctrl+P+Q 	# Shortcut to exit out the container which still exists even after we exit from the container.
-
-## Docker instruction commands
-ARG
-FROM
-LABEL
-EXPOSE
-ENV
-ADD
-RUN
-ENTRYPOINT
-CMD
-WORKDIR
-
---------------- docker-compose ---------------
-
+# docker-compose
 docker-compose -version     # To get the docker-compose version
 docker-compose version      # Details of the version
 docker-compose up			# To take the docker-compose.yml file in your local directory and start building the containers.
 
+# Others
 docker stack ls                                            # List stacks or apps
 docker stack deploy -c <composefile> <appname>  # Run the specified Compose file
 docker service ls                 # List running services associated with an app
 docker service ps <service>                  # List tasks associated with an app
 docker stack rm <appname>                             # Tear down an application
 docker swarm leave --force      # Take down a single node swarm from the manager
+
+# Shortcut keys
+Ctrl+P+Q 	# Shortcut to exit out the container which still exists even after we exit from the container.
+
+# Docker instruction commands
+ARG
+FROM
+LABEL
+EXPOSE
+ENV
+ADD
+COPY
+ENTRYPOINT
+CMD
+VOLUME
+USER
+WORKDIR
+RUN
+ONBUILD
+STOPSIGNAL
+SHELL
