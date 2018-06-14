@@ -1,34 +1,47 @@
 resource links:
-  - http://php.net/
-  - https://en.wikibooks.org/wiki/PHP_Programming
-  - http://phpfiddle.org/
-  - https://www.w3schools.com/php/default.asp
-  - https://www.afterhoursprogramming.com/tutorial/php/php-overview/
+    - http://php.net/
+    - https://en.wikibooks.org/wiki/PHP_Programming
+    - http://phpfiddle.org/
+    - https://www.w3schools.com/php/default.asp
+    - https://www.afterhoursprogramming.com/tutorial/php/php-overview/
 
 Notes:
-  - all keywords (e.g. if, else, while, echo, etc.), classes, functions, and user-defined functions are NOT case-sensitive.
-  - Variable names are case-sensitive.
-  - Three variable scopes:
-    - local
-    - global
-    - static.
-  - A variable declared outside a function has a GLOBAL SCOPE and can only be accessed outside a function.
-  - A variable declared within a function has a LOCAL SCOPE and can only be accessed within that function.
-  - Global variables can be accessed in a function using 'global' keyword.
-  - All global variables are stored in an array called $GLOBALS[index], The index holds the name of the variable.
-  - Static variables are declared using keyword 'static' and won't be deleted after execution of the function and still local to the function.
-  - Two basic ways to get output, echo and print.
-  - echo vs print:
-    - echo has no return value while print has a return value of 1. So it can be used in expressions.
-    - echo can take multiple parameters (although such usage is rare) while print can take one argument.
-    - echo is marginally faster than print.
-  - Data types:
-    - String
-    - Integer
-    - Float (floating point numbers - also called double)
-    - Boolean
-    - Array
-    - Object
-    - NULL
-    - Resource
-  - var_dump() is used to dump info about a variable.
+    - all keywords (e.g. if, else, while, echo, etc.), classes, functions, and user-defined functions are NOT case-sensitive.
+    - Variable names are case-sensitive.
+    - Three variable scopes:
+        - local
+        - global
+        - static.
+    - A variable declared outside a function has a GLOBAL SCOPE and can only be accessed outside a function.
+    - A variable declared within a function has a LOCAL SCOPE and can only be accessed within that function.
+    - Global variables can be accessed in a function using 'global' keyword.
+    - All global variables are stored in an array called $GLOBALS[index], The index holds the name of the variable.
+    - Static variables are declared using keyword 'static' and won't be deleted after execution of the function and still local to the function.
+    - Two basic ways to get output, echo and print.
+    - echo vs print:
+        - echo has no return value while print has a return value of 1. So it can be used in expressions.
+        - echo can take multiple parameters (although such usage is rare) while print can take one argument.
+        - echo is marginally faster than print.
+    - Data types:
+        - String
+        - Integer
+        - Float (floating point numbers - also called double)
+        - Boolean
+        - Array
+        - Object
+        - NULL
+        - Resource
+    - var_dump() is used to dump info about a variable.
+    - Short tag format <?=   ?>
+    - In formatted print, if there's more % than arguments, a place holder is needed. Place holder format is %n\$ where n is the argument number. Example as printf("I have %1\$d books, %2\$d pens and %2\$d pencils.", $b, $p);
+    - Function names are NOT case-sensitive.
+    - Superglobal variables:
+        - $GLOBALS
+        - $_SERVER
+        - $_REQUEST
+        - $_POST
+        - $_GET
+        - $_FILES
+        - $_ENV
+        - $_COOKIE
+        - $_SESSION
