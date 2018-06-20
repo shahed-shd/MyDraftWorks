@@ -22,3 +22,64 @@ Notes:
         - External - by using an external CSS file
     - The class attribute can be used on any HTML element.
     - The class name is case sensitive !
+    - HTML Form:
+        - <fieldset> to group related form data and <legend> to have a caption for <fieldset> element.
+        - <label> to label an input element.
+
+        - <form> attributes:
+            - accept-charset    # Specifies the charset used in the submitted form (default: the page charset).
+            - action            # Specifies an address (url) where to submit the form (default: the submitting page).
+            - enctype 	        # Specifies the encoding of the submitted data (default: is url-encoded).
+            - method            # Specifies the HTTP method used when submitting the form (default: GET).
+            - novalidate 	    # Specifies that the browser should not validate the form.
+            - target 	        # Specifies the target of the address in the action attribute (default: _self, others: _blank, _top, _parent).
+
+        - Input attributes:
+            - autocomplete 	    # Specifies if the browser should autocomplete the form (default: on).
+            - autofocus         # Specifies that the input field should automatically get focus when the page loads.
+            - name              # Specifies a name used to identify the form.
+            - placeholder       # Specifies a hint that describes the expected value of an input field (a sample value or a short description of the format). Wworks with input types: text, search, url, tel, email, and password.
+            - form              # pecifies one or more forms an <input> element belongs to.
+            # Following attributes overrides the related attribute of the <form> element.
+            - formaction        # Can be used with type="submit" and type="image".
+            - formenctype       # Only for forms with method="post" and is used with type="submit" and type="image".
+            - formmethod        # Can be used with type="submit" and type="image".
+            - formnovalidate    # Can be used with type="submit".
+            - formtarget        # Can be used with type="submit" and type="image".
+
+        - Input types:  # <input type="typeGoesHere" name="NameGoesHere">
+            - <input type="text">       # One-line text input field.
+            - <input type="password">   # defines a password field where characters are masked.
+            - <input type="radio">      # Radio button for selecting one of many choices.
+            - <input type="checkbox">   # checkbox.
+            - <input type="submit">     # Submit button for submitting the form.
+            - <input type="reset">      # Reset button that will reset all form values to their default values.
+            - <input type="range">      # Scaling within a range
+            - <input type="number">     # Numeric input
+            - <input type="button">      # Button. type attribute should be specified as different browsers may use different default types for the button element.
+            - <button type="button">    # Same as above.
+            - <input type="color">      # To choose a color.
+            - <input type="date">       # To input date.
+            - <input type="datetime-local">     # Specifies a date and time input field, with no time zone.
+            - <input type="email">      # To input email address which will be automatically validated when submitted.
+            - <input type="file">       # Defines a file-select field and a "Browse" button.
+            - <input type="month">      # Allows the user to select a month and year.
+            - <input type="search">     # Search field like a text field.
+            - <input type="time">       # To input a time (no time zone).
+            - <input type="url">        # To input url.
+            - <select> and <option> , optionally <optgroup>    # Drop-down list.
+            - <textarea>                # Text area for multi-line input field.
+            - <input list=""> and <datalist>    # A list of pre-defined options for an <input> element.
+
+        - Input restrictions:
+            - disabled      # Specifies that an input field should be disabled
+            - multiple      # To allow user to enter more than one value
+            - max           # Specifies the maximum value for an input field
+            - maxlength     # Specifies the maximum number of character for an input field
+            - min           # Specifies the minimum value for an input field
+            - pattern       # Specifies a regular expression to check the input value against
+            - readonly      # Specifies that an input field is read only (cannot be changed)
+            - required      # Specifies that an input field is required (must be filled out)
+            - size          # Specifies the width (in characters) of an input field
+            - step          # Specifies the legal number intervals for an input field
+            - value         # Specifies the default value for an input field
