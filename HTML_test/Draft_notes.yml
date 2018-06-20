@@ -1,0 +1,24 @@
+Resource links:
+    - https://www.w3schools.com/tags/ref_attributes.asp     # List of HTML attributes
+
+Versions:
+    - HTML (1991)
+    - HTML 2.0 (1995)
+    - HTML 3.2 (1997)
+    - HTML 4.01 (1999)
+    - XHTML (2000)
+    - HTML5 (2014)
+
+Notes:
+    - The <!DOCTYPE> declaration is not case sensitive.
+    - HTML tags are element names surrounded by angle brackets.
+    - UTF-8 is the preferred encoding for HTML files.
+    - HTML elements with no content are called empty elements. Empty elements do not have an end tag.
+    - HTML tags are not case sensitive.
+    - HTML supports 140 standard color names.
+    - CSS can be added to HTML elements in 3 ways:
+        - Inline - by using the style attribute in HTML elements
+        - Internal - by using a <style> element in the <head> section
+        - External - by using an external CSS file
+    - The class attribute can be used on any HTML element.
+    - The class name is case sensitive !
