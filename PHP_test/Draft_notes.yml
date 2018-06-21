@@ -45,3 +45,10 @@ Notes:
         - $_ENV
         - $_COOKIE
         - $_SESSION
+    - Form validation:
+        - The value of $_SERVER['PHP_SELF'] is taken directly from the URL entered in the browser. Therefore, using it without htmlspecialchars() may allow hackers to directly manipulate the output of code.
+        - Strip unnecessary characters (extra space, tab, newline) from user input data (with the PHP trim() function).
+        - Remove backslashes (\) from the user input data (with the PHP stripslashes() function).
+        - It is better to create a function that will do all the checking for us which is much more convenient than writing the same code over and over again.
+        - filter_var() can be used with different filters.
+        - preg_match() can be used to match a pattern.
