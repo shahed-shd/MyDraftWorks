@@ -52,3 +52,7 @@ Notes:
         - It is better to create a function that will do all the checking for us which is much more convenient than writing the same code over and over again.
         - filter_var() can be used with different filters.
         - preg_match() can be used to match a pattern.
+    - include vs require:
+        # Both statements are identical, except upon failure.
+        - require - will produce a fatal error (E_COMPILE_ERROR) and stop the script.
+        - include - will only produce a warning (E_WARNING) and the script will continue
