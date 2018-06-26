@@ -55,4 +55,37 @@ Notes:
     - include vs require:
         # Both statements are identical, except upon failure.
         - require - will produce a fatal error (E_COMPILE_ERROR) and stop the script.
-        - include - will only produce a warning (E_WARNING) and the script will continue
+        - include - will only produce a warning (E_WARNING) and the script will continue.
+    - File operations:
+        # More on https://www.w3schools.com/php/php_ref_filesystem.asp
+        - readfile()    # Reads a file and writes it to the output buffer and returns the number of bytes read on success.
+        - file()        # Reads a file into an array.
+        - fopen()       # Opens a flie in specific mode.
+        - fread()       # Reads from an open file.
+        - fwrite()      # Writes to a file.
+        - fclose()      # Closes an open file.
+        - filesize()    # Returns the size of a file in bytes.
+        - fgets()       # Reads a single line from a file.
+        - feof()        # hecks if the "end-of-file" (EOF) has been reached.
+        - fgetc()       # Reads a single character from a file.
+        - File open modes:
+            - r     # Open a file for read only. File pointer starts at the beginning of the file.
+            - w     # Open a file for write only. Erases the contents of the file or creates a new file if it doesn't exist. File pointer starts at the beginning of the file.
+            - a     # Open a file for write only. The existing data in file is preserved. File pointer starts at the end of the file. Creates a new file if the file doesn't exist.
+            - x     # Creates a new file for write only. Returns FALSE and an error if file already exists.
+            - r+    # Open a file for read/write. File pointer starts at the beginning of the file.
+            - w+    # Open a file for read/write. Erases the contents of the file or creates a new file if it doesn't exist. File pointer starts at the beginning of the file.
+            - a+    # Open a file for read/write. The existing data in file is preserved. File pointer starts at the end of the file. Creates a new file if the file doesn't exist.
+            - x+    # Creates a new file for read/write. Returns FALSE and an error if file already exists.
+        - To upload a file, <form> tag needs attribute values as method="POST" and enctype="multipart/form-data" .
+        - Cookie:
+            # A cookie is a small file that the server embeds on the user's computer. Each time the same computer requests a page with a browser, it will send the cookie too.
+            - setcookie()       # To create, modify, delete cookies.
+            - setrawcookie()    # To create, modify, delete cookies and to prevent URLencoding.
+            - $_COOKIE[]        # Global variable to retrieve cookies.
+        - Session:
+            # A session is a way to store information (in variables) to be used across multiple pages. Unlike a cookie, the information is not stored on the users computer.
+            - session_start()   # Starts a session.
+            - $_SESSION         # Session variables are set with this PHP global variable.
+            - session_unset()   # Removes all session variables.
+            - session_destroy() # Destroys the session.
