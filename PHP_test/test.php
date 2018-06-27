@@ -57,7 +57,19 @@
             echo "$s[0] : $s[34] <br>";
         }*/
 
+        # ---------- Error handling ----------
+        /*function customError($errno, $errstr) {
+            echo "<b>Error:</b> [$errno] $errstr";
+        }
 
+        set_error_handler("customError");
+
+        $abc = 5;
+        echo "<br>" . $abc . "<br>";
+
+        if($abc > 1) {
+            trigger_error("Error goes on !");
+        }*/
     ?>
 
     <p> In p tag, using short tag: <?=$a?></p>
