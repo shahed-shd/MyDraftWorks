@@ -89,3 +89,9 @@ Notes:
             - $_SESSION         # Session variables are set with this PHP global variable.
             - session_unset()   # Removes all session variables.
             - session_destroy() # Destroys the session.
+        - Filters:
+            - Validating data = Determine if the data is in proper form.
+            - Sanitizing data = Remove any illegal character from the data.
+            - filter_list()     #  Lists what the PHP filter extension offers.
+            - filter_id()       # Returns filter ID of a specified filter name.
+            - filter_var()      # To validate and sanitize data.
