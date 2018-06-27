@@ -10,6 +10,12 @@
 <body>
     <h3>It is a heading.</h3>
     <?php
+        # To show errors.
+        ini_set('display_errors', 1);
+        ini_set('display_startup_errors', 1);
+        error_reporting(E_ALL);
+
+        # Just an echo.
         echo "I am awesome !";
 
         # ---------- Comments ----------
@@ -30,7 +36,7 @@
         $b = "It's a string type value";
         $c = true;
         $arr = ['aa', 'bb', 'cc'];
-        $arr_assoc = [0=>abc, d=>def, g=>ghi];
+        $arr_assoc = [0=>"abc", 'd'=>'def', 'g'=>'ghi'];
 
         echo "<br> $a <br> $b <br> $c <br>";
         var_dump($arr);
@@ -51,7 +57,7 @@
             echo "$s[0] : $s[34] <br>";
         }*/
 
-        echo $_SERVER["SCRIPT_URI"];
+
     ?>
 
     <p> In p tag, using short tag: <?=$a?></p>
