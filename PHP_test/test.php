@@ -19,7 +19,6 @@
         echo "I am awesome !";
 
         # ---------- Comments ----------
-
         // Double slash is used for inline comment.
         # The # symbol is also used for inline comment.
 
@@ -31,7 +30,7 @@
         echo "<br> x: $x <br>";
 
         #  ---------- Variables ----------
-
+        /*
         $a = 1234;
         $b = "It's a string type value";
         $c = true;
@@ -47,6 +46,7 @@
         $s = "abcdefghij";
         printf("[%'*-15.7s]", $s);   // print 7 characters of the string, occupying 15 character space, padding wiht *, left justified.
         echo "<br>";
+        */
 
         # ---------- str_getcsv() example ----------
         /*$csv_file_path = '/home/shahed/ShdHomeData/MyDraftWorks/TestFolder/contacts.csv';
@@ -58,7 +58,8 @@
         }*/
 
         # ---------- Error handling ----------
-        /*function customError($errno, $errstr) {
+        /*
+        function customError($errno, $errstr) {
             echo "<b>Error:</b> [$errno] $errstr";
         }
 
@@ -69,9 +70,24 @@
 
         if($abc > 1) {
             trigger_error("Error goes on !");
-        }*/
+        }
+        */
+
+        # ---------- MySQL ----------
+        /*
+        $conn = new mysqli("localhost", "root", "abcd1234");
+
+        var_dump($conn->connect_error);
+
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+        echo "Connected successfully";
+        */
+
     ?>
 
-    <p> In p tag, using short tag: <?=$a?></p>
+     <!-- ---------- Short tag ---------- -->
+    <!-- <p> In p tag, using short tag: <?=$a?></p> -->
 </body>
 </html>
