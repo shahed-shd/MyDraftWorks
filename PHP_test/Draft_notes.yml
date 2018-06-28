@@ -8,6 +8,7 @@ resource links:
 Notes:
     - all keywords (e.g. if, else, while, echo, etc.), classes, functions, and user-defined functions are NOT case-sensitive.
     - Variable names are case-sensitive.
+
     - Three variable scopes:
         - local
         - global
@@ -18,10 +19,12 @@ Notes:
     - All global variables are stored in an array called $GLOBALS[index], The index holds the name of the variable.
     - Static variables are declared using keyword 'static' and won't be deleted after execution of the function and still local to the function.
     - Two basic ways to get output, echo and print.
+
     - echo vs print:
         - echo has no return value while print has a return value of 1. So it can be used in expressions.
         - echo can take multiple parameters (although such usage is rare) while print can take one argument.
         - echo is marginally faster than print.
+
     - Data types:
         - String
         - Integer
@@ -31,10 +34,19 @@ Notes:
         - Object
         - NULL
         - Resource
+
+    - String specification:
+        # 4 Ways to specify a string.
+        - Single quoted
+        - Double quoted
+        - Heredoc
+        - Nowdoc
+
     - var_dump() is used to dump info about a variable.
     - Short tag format <?=   ?>
     - In formatted print, if there's more % than arguments, a place holder is needed. Place holder format is %n\$ where n is the argument number. Example as printf("I have %1\$d books, %2\$d pens and %2\$d pencils.", $b, $p);
     - Function names are NOT case-sensitive.
+
     - Superglobal variables:
         - $GLOBALS
         - $_SERVER
@@ -45,6 +57,7 @@ Notes:
         - $_ENV
         - $_COOKIE
         - $_SESSION
+
     - Form validation:
         - The value of $_SERVER['PHP_SELF'] is taken directly from the URL entered in the browser. Therefore, using it without htmlspecialchars() may allow hackers to directly manipulate the output of code.
         - Strip unnecessary characters (extra space, tab, newline) from user input data (with the PHP trim() function).
@@ -52,10 +65,12 @@ Notes:
         - It is better to create a function that will do all the checking for us which is much more convenient than writing the same code over and over again.
         - filter_var() can be used with different filters.
         - preg_match() can be used to match a pattern.
+
     - include vs require:
         # Both statements are identical, except upon failure.
         - require - will produce a fatal error (E_COMPILE_ERROR) and stop the script.
         - include - will only produce a warning (E_WARNING) and the script will continue.
+
     - File operations:
         # More on https://www.w3schools.com/php/php_ref_filesystem.asp
         - readfile()    # Reads a file and writes it to the output buffer and returns the number of bytes read on success.
@@ -68,6 +83,7 @@ Notes:
         - fgets()       # Reads a single line from a file.
         - feof()        # hecks if the "end-of-file" (EOF) has been reached.
         - fgetc()       # Reads a single character from a file.
+
         - File open modes:
             - r     # Open a file for read only. File pointer starts at the beginning of the file.
             - w     # Open a file for write only. Erases the contents of the file or creates a new file if it doesn't exist. File pointer starts at the beginning of the file.
@@ -78,23 +94,27 @@ Notes:
             - a+    # Open a file for read/write. The existing data in file is preserved. File pointer starts at the end of the file. Creates a new file if the file doesn't exist.
             - x+    # Creates a new file for read/write. Returns FALSE and an error if file already exists.
         - To upload a file, <form> tag needs attribute values as method="POST" and enctype="multipart/form-data" .
+
         - Cookie:
             # A cookie is a small file that the server embeds on the user's computer. Each time the same computer requests a page with a browser, it will send the cookie too.
             - setcookie()       # To create, modify, delete cookies.
             - setrawcookie()    # To create, modify, delete cookies and to prevent URLencoding.
             - $_COOKIE[]        # Global variable to retrieve cookies.
+
         - Session:
             # A session is a way to store information (in variables) to be used across multiple pages. Unlike a cookie, the information is not stored on the users computer.
             - session_start()   # Starts a session.
             - $_SESSION         # Session variables are set with this PHP global variable.
             - session_unset()   # Removes all session variables.
             - session_destroy() # Destroys the session.
+
         - Filters:
             - Validating data = Determine if the data is in proper form.
             - Sanitizing data = Remove any illegal character from the data.
             - filter_list()     #  Lists what the PHP filter extension offers.
             - filter_id()       # Returns filter ID of a specified filter name.
             - filter_var()      # To validate and sanitize data.
+
         - Error handling:
             - Arguments of user defined handler function:
                 - errno         # The first parameter, errno, contains the level of the error raised, as an integer.
@@ -102,6 +122,7 @@ Notes:
                 - errfile       # The third parameter is optional, errfile, which contains the filename that the error was raised in, as a string.
                 - errline       # The fourth parameter is optional, errline, which contains the line number the error was raised at, as an integer.
                 - errcontext    # The fifth parameter is optional, errcontext, which is an array that points to the active symbol table at the point the error occurred. In other words, errcontext will contain an array of every variable that existed in the scope the error was triggered in. User error handler must not modify error context. This parameter has been DEPRECATED as of PHP 7.2.0. Relying on it is highly discouraged.
+
             - exit()                # Output a message and terminate the current script.
             - die()                 # Same as exit().
             - set_error_handler()   # Sets a user-defined error handler function.
