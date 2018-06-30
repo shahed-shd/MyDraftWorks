@@ -73,18 +73,6 @@
         }
         */
 
-        # ---------- MySQL ----------
-        /*
-        $conn = new mysqli("localhost", "root", "abcd1234");
-
-        var_dump($conn->connect_error);
-
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
-        echo "Connected successfully";
-        */
-
     ?>
 
      <!-- ---------- Short tag ---------- -->
