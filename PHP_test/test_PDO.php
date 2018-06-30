@@ -10,12 +10,12 @@
 <body>
     <h3>It is a heading.</h3>
     <?php
-        # To show errors.
+        # ---------- To show errors ----------
         ini_set('display_errors', 1);
         ini_set('display_startup_errors', 1);
         error_reporting(E_ALL);
 
-        // Open a Connection to MySQL.
+        # ---------- Open a Connection to MySQL ----------
         $servername = 'localhost';
         $username = 'root';
         $password = 'abcd1234';
@@ -29,7 +29,7 @@
             echo 'Connection failed: ' . $e->getMessage();
         }
 
-        // Creating a database.
+        # ---------- Creating a database ----------
         $dbname = 'myDBPDO';
 
         try {
@@ -46,7 +46,7 @@
         echo  $conn->exec($sql);
         echo "Using database $dbname <br>";
 
-        // Creating table.
+        # ---------- Creating table ----------
         $sql = "CREATE TABLE IF NOT EXISTS myguests (
             id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
             firstname VARCHAR(30) NOT NULL,
@@ -58,7 +58,7 @@
         $conn->exec($sql);
         echo 'Table created successfully. <br>';
 
-        // Inserting record.
+        # ---------- Inserting record ----------
         $sql = "INSERT INTO myguests (firstname, lastname, email)
             VALUES ('John', 'Doe', 'john@example.com')";
 
@@ -67,7 +67,7 @@
         $last_id = $conn->lastInsertId();
         echo 'New record inserted successfully. Last inserted id: ' . $last_id . '<br>';
 
-        // Inserting multiple records.
+        # ---------- Inserting multiple records ----------
         $conn->beginTransaction();
 
         $conn->exec("INSERT INTO myguests (firstname, lastname, email)
@@ -81,7 +81,7 @@
         $conn->commit();
         echo 'New records inserted successfully. Last inserted id: ' . $last_id . '<br>';
 
-        // Prepared statements.
+        # ---------- Prepared statements ----------
         $stmt = $conn->prepare("INSERT INTO myguests (firstname, lastname, email)
             VALUES (:firstname, :lastname, :email)");
 
@@ -107,7 +107,7 @@
         $last_id = $conn->lastInsertId();
         echo 'New records inserted successfully. Last inserted id: ' . $last_id . '<br>';
 
-        // Select data
+        # ---------- Select data ----------
         $sql = "SELECT id, firstname, lastname FROM myguests";
         $result = $conn->query($sql);
 
@@ -122,12 +122,25 @@
             echo '0 results <br>';
         }
 
-        // Delete data
+        # ---------- Delete data ----------
+        /*
         $sql = "DELETE FROM myguests WHERE id = 3";
         $conn->exec($sql);
         echo "Record deleted successfully. <br>";
+        */
 
-        // Close the Connection
+        # ---------- Update data ----------
+        /*
+        $sql = "UPDATE myguests
+            SET lastname = 'Dooley'
+            WHERE id = 1";
+
+        $conn->exec($sql);
+
+        echo "Data updated successfully. <br>";
+        */
+
+        # Close the Connection
         $conn = null;
     ?>
 
