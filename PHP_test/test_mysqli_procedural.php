@@ -1,4 +1,4 @@
-<DOCTYPE <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -78,11 +78,11 @@
             VALUES ('Julie', 'Dooley', 'julie@example.com')";
 
         if(mysqli_multi_query($conn, $sql)) {
-            echo "New records created successfully. <br>";
             while(mysqli_more_results($conn)) {   // Flush multi_queries.
                 echo "FLUSHING... <br>";
                 mysqli_next_result($conn);
             }
+            echo "New records created successfully. <br>";
         }
         else {
             echo "Error: " . $sql . "<br>" . mysqli_error($conn) . "<br>";
@@ -106,6 +106,31 @@
         else {
             echo '0 results <br>';
         }
+
+        # ---------- Delete data ----------
+        /*
+        $sql = "DELETE FROM myguests WHERE id = 3";
+
+        if(mysqli_query($conn, $sql)) {
+            echo "Record deleted successfully. <br>";
+        }
+        else {
+            echo "Error deleting record: " . mysqli_errno($conn) . "<br>";
+        }
+        */
+
+        # ---------- Update data ----------
+        /*$sql = "UPDATE myguests
+            SET lastname = 'Dooley'
+            WHERE id = 1";
+
+        if(mysqli_query($conn, $sql)) {
+            echo "Data updated successfully. <br>";
+        }
+        else {
+            echo "Error updating record: " . mysqli_error($conn) . "<br>";
+        }*/
+
 
         # Close the Connection
         mysqli_close($conn);
