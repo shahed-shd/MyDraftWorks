@@ -40,3 +40,11 @@ Here `polls` is the name of the app.
 
 - Creating an **admin** user:
 `python3 manage.py createsuperuser`
+
+- To set up the **test** environment in the shell:
+`python3 manage.py shell`
+In interpreter:
+```python
+>>> from django.test.utils import setup_test_environment
+>>> setup_test_environment()
+```
