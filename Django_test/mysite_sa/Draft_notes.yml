@@ -3,4 +3,8 @@ Steps:
     - TIME_ZONE = 'Asia/Dhaka'                  # Changing time zone in mysite_sa/mysite_sa/settings.py
     - python3 manage.py startapp polls_sa       # Command to start app.
     - python3 manage.py migrate                 # Some of INSTALLED_APPS (in mysite_sa/mysite_sa/settings.py) applications make use of at least one database table, command to create the tables in the database before we can use them.
-    -
+    - Defining models in mysite_sa/polls_sa/models.py
+    - Defining views in views.py
+    - Linking mysite_sa/polls_sa/urls.py and mysite_sa/mysite_sa/urls.py
+    - python3 manage.py shell                   # For interactive python interpreter
+    - Adding some Questions in database using python interpreter

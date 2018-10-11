@@ -37,9 +37,14 @@ class Choice(Base):
     id = Column('id', Integer, primary_key=True)
     choice_text = Column('choice_text', String)
     votes = Column('votes', Integer)
-    question_id = Column('question_id', String, ForeignKey('questions.id'))
+    question_id = Column('question_id', Integer, ForeignKey('questions.id'))
 
     question = relationship('Question', back_populates='choices')
 
     def __repr__(self):
         return "<Choice(id={}, choice_text={}, votes={})>".format(self.id, self.question_text, self.pub_date)
+
+
+Base.metadata.create_all(engine)
+Session = sessionmaker(bind=engine)
+session = Session()
