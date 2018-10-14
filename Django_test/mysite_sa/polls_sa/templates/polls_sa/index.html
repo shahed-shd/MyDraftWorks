@@ -12,3 +12,5 @@
 {% else %}
     <p>No polls are available.</p>
 {% endif %}
+
+<a href="{% url 'polls_sa:add_question_view' %}">Add New Question.</a>

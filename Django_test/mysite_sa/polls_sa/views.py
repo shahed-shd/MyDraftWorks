@@ -1,3 +1,5 @@
+import datetime
+
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
@@ -39,6 +41,41 @@ class ResultsView(generic.DetailView):
         return instance
 
 
+def add_question_view(request):
+    template_name = 'polls_sa/add_question.html'
+    return render(request, template_name)
+
+
+def add_question(request):
+    question_text = request.POST['question_text']
+    pub_date = request.POST['pub_date']
+    pub_time = request.POST['pub_time']
+
+    choice_texts = request.POST['choice_texts']
+    choice_text_list = choice_texts.split('\n')
+    choice_text_list = [x.strip() for x in choice_text_list]
+
+    question = Question()
+    question.question_text = question_text
+    try:
+        question.pub_date = datetime.datetime.strptime("{} {}".format(pub_date, pub_time), "%Y-%m-%d %H:%M")
+    except:
+        question.pub_date = timezone.now()
+
+    for x in choice_text_list:
+        choice = Choice()
+        choice.choice_text = x
+        choice.votes = 0
+        question.choices.append(choice)
+
+    session.add(question)
+    session.commit()
+
+    print("HERE Q:", question)
+
+    return HttpResponseRedirect(reverse('polls_sa:index'))
+
+
 def vote(request, question_id):
     question = session.query(Question).filter_by(id=question_id)
 
@@ -57,5 +94,4 @@ def vote(request, question_id):
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
-
         return HttpResponseRedirect(reverse('polls_sa:results', args=(question_id,)))
