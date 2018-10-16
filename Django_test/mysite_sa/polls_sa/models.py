@@ -3,12 +3,14 @@ import datetime
 from sqlalchemy import create_engine, Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
+from sqlalchemy.sql import select
 
 from django.conf import settings
 from django.utils import timezone
+from sqlalchemy.pool import StaticPool
 
-
-engine = create_engine('sqlite:////' + settings.DATABASES['default']['NAME'])
+engine = create_engine('sqlite:////' + settings.DATABASES['default']['NAME'], connect_args={'check_same_thread':False},
+                    poolclass=StaticPool)
 Base = declarative_base()
 
 
@@ -48,3 +50,4 @@ class Choice(Base):
 Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
 session = Session()
+conn = engine.connect()
