@@ -39,10 +39,10 @@ class Address(object):
     email_address = Column(String)
 
 
-mapper(User, user, properties={
+user_mapper = mapper(User, user, properties={
     'addresses': relationship(Address, backref='user', order_by=address.c.id)
 })
 
-mapper(Address, address)
+address_mapper = mapper(Address, address)
 
 insp = inspect(User)
