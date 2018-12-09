@@ -17,6 +17,16 @@
 <button type="button" onclick="fn1()"> Click me </button>
 
 <script src="test.js"></script>
+<script>
+function dragstart_handler(ev) {
+    console.log("dragStart");
+    // Add the target element's id to the data transfer object
+    ev.dataTransfer.setData("text/plain", ev.target.id);
+   }
+</script>
+
+    <p id="p1" draggable="true" ondragstart="dragstart_handler(event);">This element is draggable.</p>
+
 
 </body>
 </html>
