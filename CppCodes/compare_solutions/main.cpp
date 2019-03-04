@@ -40,11 +40,11 @@ int main()
     system("rm -f gen in.txt sol_a out_a.txt sol_b out_b.txt");
 
     // Run sol_a.cpp and get executable file.
-    executable_a_file_name = split_file_name_ext(SOLUTION_A_FILE_NAME).first;
+    string executable_a_file_name = split_file_name_ext(SOLUTION_A_FILE_NAME).first;
     build_executable(SOLUTION_A_FILE_NAME, executable_a_file_name);
 
     // Run sol_b.cpp and get executable file.
-    executable_b_file_name = split_file_name_ext(SOLUTION_B_FILE_NAME).first;
+    string executable_b_file_name = split_file_name_ext(SOLUTION_B_FILE_NAME).first;
     build_executable(SOLUTION_B_FILE_NAME, executable_b_file_name);
 
     for(int cmp_cnt = 1; cmp_cnt <= CMP_TOT; ++cmp_cnt) {
