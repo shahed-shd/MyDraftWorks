@@ -1,20 +1,23 @@
 # ==================================================
-# Problem   :   
+# Problem   :
 # Run time  :    sec.
 # Language  :   Python 3.5
 # ==================================================
 
 
-def main():
-    # from sys import stdin, stdout
+import sys
 
-    # stdin = open("in.txt", "r")
-    # it = iter(map(int, stdin.read().split()))
-    # ansL = []
+
+def main():
+    sys.stdin = open("in.txt", "r")
+    sys.stdout = open("out.txt", "w")
+
+    it = iter(map(int, sys.stdin.read().split()))
+    ansL = [str(x) for x in it]
 
     print("Hello World!")
 
-    # stdout.write(''.join(ansL))
+    sys.stdout.write(''.join(ansL))
 
 
 if __name__ == '__main__':
