@@ -16,11 +16,18 @@ class RandomWordsState extends State<RandomWords> {
         return Scaffold(
             appBar: AppBar(
                 title: Text('Startup Name Generator'),
+                actions: <Widget>[
+                    IconButton(icon: Icon(Icons.list), onPressed: _pushSaved),
+                ],
             ),
             body: _buildSuggestions(),
         );
         // final wordPair = WordPair.random();
         // return Text(wordPair.asPascalCase);
+    }
+
+    void _pushSaved() {
+
     }
 
     Widget _buildRow(WordPair pair) {
@@ -42,9 +49,6 @@ class RandomWordsState extends State<RandomWords> {
                         _saved.add(pair);
                     }
                 });
-
-                print(_saved);
-                print(_saved.hashCode);
             },
         );
     }
