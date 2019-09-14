@@ -18,6 +18,14 @@ def main():
     print("\nAS YAML DUMPING:\n")
     yaml.safe_dump(obj, stream=sys.stdout)
 
+    try:
+        import pyaml
+    except:
+        pass
+    else:
+        print("\nAS PYAML DUMPING:\n")
+        pyaml.dump(obj, sys.stdout, vspacing=[1, 0])
+
 
 if __name__ == '__main__':
     main()
