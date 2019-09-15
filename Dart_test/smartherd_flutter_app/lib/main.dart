@@ -5,12 +5,32 @@ void main() {
     runApp(MaterialApp(
         title: "Exploring UI Widgets",
         home: Scaffold(
-        appBar: AppBar(
-            title: Text("Basic List View"),
-        ),
-        body: getListView(),
+            appBar: AppBar(
+                title: Text("Basic List View"),
+            ),
+            body: getListView(),
+            floatingActionButton: FloatingActionButton(
+                onPressed: () => debugPrint("FAB pressed"),
+                child: Icon(Icons.add),
+                tooltip: 'Add One More Item',
+            ),
         ),
     ));
+}
+
+
+void showTheSnackBar(BuildContext context, String item) {
+    var snackBar = SnackBar(
+        content: Text("You just tapped $item"),
+        action: SnackBarAction(
+            label: "UNDO",
+            onPressed: () {
+                debugPrint("Performing dummy UNDO operation");
+            },
+        ),
+    );
+
+    Scaffold.of(context).showSnackBar(snackBar);
 }
 
 
@@ -29,7 +49,10 @@ Widget getListView() {
             return ListTile(
                 leading: Icon(Icons.arrow_right),
                 title: Text(listItems[index]),
-                onTap: () => debugPrint("${listItems[index]} has been tapped"),
+                onTap: () {
+                    debugPrint("${listItems[index]} has been tapped");
+                    showTheSnackBar(context, 'You just tapped ${listItems[index]}');
+                },
             );
         },
     );
