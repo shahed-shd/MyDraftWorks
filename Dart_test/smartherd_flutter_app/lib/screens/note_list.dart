@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smartherd_flutter_app/screens/note_details.dart';
 
 
 class NoteList extends StatefulWidget {
@@ -26,6 +27,7 @@ class NoteListState extends State<NoteList> {
             floatingActionButton: FloatingActionButton(
                 onPressed: () {
                     debugPrint('FAB pressed');
+                    navigateToDetail('Add Note');
                 },
 
                 tooltip: 'Add Note',
@@ -58,10 +60,17 @@ class NoteListState extends State<NoteList> {
 
                         onTap: () {
                             debugPrint("ListTile tapped");
+                            navigateToDetail('Edit Note');
                         },
                     ),
                 );
             },
         );
+    }
+
+    void navigateToDetail(String title) {
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return NoteDetail(title);
+        }));
     }
 }
