@@ -1,8 +1,31 @@
 import 'package:flutter/material.dart';
-import 'app_screens/home.dart';
+import 'package:smartherd_flutter_app/screens/note_list.dart';
+import 'package:smartherd_flutter_app/screens/note_details.dart';
+//import 'app_screens/home.dart';
 
 
 void main() {
+    runApp(MyApp());
+}
+
+
+class MyApp extends StatelessWidget {
+
+    @override
+    Widget build(BuildContext context) {
+        return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'NoteKeeper',
+            theme: ThemeData(
+                primarySwatch: Colors.deepPurple,
+            ),
+            home: NoteDetail(),
+        );
+  }
+}
+
+
+/*void main() {
     runApp(
         MaterialApp(
             debugShowCheckedModeBanner: false,
@@ -245,7 +268,7 @@ class _SIFormState extends State<SIForm> {
         _currentItemSelected = _currencies.first;
     }
 }
-
+*/
 
 //void main() {
 //    runApp(MaterialApp(
