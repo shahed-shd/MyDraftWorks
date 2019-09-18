@@ -23,12 +23,16 @@ class Note {
 
     set description(String newDescription) {
         if(newDescription.length <= 255) {
-            this._title = newDescription;
+            this._description = newDescription;
         }
     }
 
     set date(String newDate) {
         this._date = newDate;
+    }
+
+    set priority(int newPriority) {
+        this._priority = newPriority;
     }
 
     // Convert a Note object into a Map object.
@@ -49,12 +53,10 @@ class Note {
 
     // Extract a Note object from a Map object
     Note.fromMapObject(Map<String, dynamic> map) {
-        Note.withId(
-            map['id'],
-            map['title'],
-            map['description'],
-            map['date'],
-            map['priority']
-        );
+        this._id = map['id'];
+        this._title = map['title'];
+        this._date = map['date'];
+        this._priority = map['priority'];
+        this._description = map['description'];
     }
 }

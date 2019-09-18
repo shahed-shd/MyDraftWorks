@@ -61,7 +61,7 @@ class DatabaseHelper {
         Database db = await this.database;
         
 //        var result = await db.rawQuery('SELECT * FROM $noteTable ORDER BY $colPriority ASC');
-        var result = await db.query(noteTable, orderBy: '$colPriority ASC');
+        var result = await db.query(noteTable, orderBy: '$colPriority DESC');
         return result;
     }
 
@@ -94,4 +94,17 @@ class DatabaseHelper {
         return result;
     }
 
+    // Get the 'Map List' [ List<Map> ] and convert it to 'Note List' [ List<Note> ].
+    Future<List<Note>> getNoteList() async {
+        var noteMapList = await getNoteMapList();
+
+        int count = noteMapList.length;
+        List<Note> noteList = List<Note>();
+
+        for(int i = 0; i < count; ++i) {
+            noteList.add(Note.fromMapObject(noteMapList[i]));
+        }
+
+        return noteList;
+    }
 }
