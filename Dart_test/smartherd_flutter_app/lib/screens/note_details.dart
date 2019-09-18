@@ -22,6 +22,7 @@ class NoteDetailState extends State<NoteDetail> {
 
     static var _priorities = ['Low', 'High'];
 
+    var _formKey = GlobalKey<FormState>();
     DatabaseHelper helper = DatabaseHelper();
 
     String appBarTitle;
@@ -56,117 +57,129 @@ class NoteDetailState extends State<NoteDetail> {
                     ),
                     title: Text(this.appBarTitle),
                 ),
-                body: Padding(
-                    padding: EdgeInsets.only(top: 15.0, left: 10.0, right: 10.0),
-                    child: ListView(
-                        children: <Widget>[
-                            ListTile(
-                                // First element.
-                                title: DropdownButton(
-                                    items: _priorities.map((String dropdownStringItem) {
-                                        return DropdownMenuItem<String>(
-                                            value: dropdownStringItem,
-                                            child: Text(dropdownStringItem),
-                                        );
-                                    }).toList(),
+                body: Form(
+                    key: _formKey,
+                    child: Padding(
+                        padding: EdgeInsets.only(top: 15.0, left: 10.0, right: 10.0),
+                        child: ListView(
+                            children: <Widget>[
+                                ListTile(
+                                    // First element.
+                                    title: DropdownButton(
+                                        items: _priorities.map((String dropdownStringItem) {
+                                            return DropdownMenuItem<String>(
+                                                value: dropdownStringItem,
+                                                child: Text(dropdownStringItem),
+                                            );
+                                        }).toList(),
 
-                                    style: textStyle,
+                                        style: textStyle,
 
-                                    value: getPriorityAsString(note.priority),
+                                        value: getPriorityAsString(note.priority),
 
-                                    onChanged: (valueSelectedByUser) {
-                                        setState(() {
-                                            debugPrint('User selected $valueSelectedByUser');
-                                            updatePriorityAsInt(valueSelectedByUser);
-                                        });
-                                    },
-                                ),
-                            ),
-
-                            // Second element.
-                            Padding(
-                                padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
-                                child: TextField(
-                                    controller: titleController,
-                                    style: textStyle,
-                                    onChanged: (value) {
-                                        debugPrint('Something changed in Title Text Field');
-                                        updateTitle();
-                                    },
-                                    decoration: InputDecoration(
-                                        labelText: 'Title',
-                                        labelStyle: textStyle,
-                                        border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(5.0),
-                                        )
+                                        onChanged: (valueSelectedByUser) {
+                                            setState(() {
+                                                debugPrint('User selected $valueSelectedByUser');
+                                                updatePriorityAsInt(valueSelectedByUser);
+                                            });
+                                        },
                                     ),
                                 ),
-                            ),
 
-                            // Third element.
-                            Padding(
-                                padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
-                                child: TextField(
-                                    controller: descriptionController,
-                                    style: textStyle,
-                                    onChanged: (value) {
-                                        debugPrint('Something changed in Description Text Field');
-                                        updateDescription();
-                                    },
-                                    decoration: InputDecoration(
-                                        labelText: 'Description',
-                                        labelStyle: textStyle,
-                                        border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(5.0),
-                                        )
-                                    ),
-                                ),
-                            ),
-
-                            // Fourth element.
-                            Padding(
-                                padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
-                                child: Row(
-                                    children: <Widget>[
-                                        Expanded(
-                                            child: RaisedButton(
-                                                color: Theme.of(context).primaryColorDark,
-                                                textColor: Theme.of(context).primaryColorLight,
-                                                child: Text(
-                                                    'Save',
-                                                    textScaleFactor: 1.5,
-                                                ),
-                                                onPressed: () {
-                                                    setState(() {
-                                                        debugPrint("Save button clicked");
-                                                        _save();
-                                                    });
-                                                },
-                                            ),
+                                // Second element.
+                                Padding(
+                                    padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+                                    child: TextFormField(
+                                        controller: titleController,
+                                        style: textStyle,
+                                        onChanged: (value) {
+                                            debugPrint('Something changed in Title Text Field');
+                                            updateTitle();
+                                        },
+                                        validator: (String value) {
+                                            if(value.isEmpty) {
+                                                return 'Please, enter a title for the note';
+                                            }
+                                            return null;
+                                        },
+                                        decoration: InputDecoration(
+                                            labelText: 'Title',
+                                            labelStyle: textStyle,
+                                            border: OutlineInputBorder(
+                                                borderRadius: BorderRadius.circular(5.0),
+                                            )
                                         ),
-
-                                        Container(width: 5.0,),
-
-                                        Expanded(
-                                            child: RaisedButton(
-                                                color: Theme.of(context).primaryColorDark,
-                                                textColor: Theme.of(context).primaryColorLight,
-                                                child: Text(
-                                                    'Delete',
-                                                    textScaleFactor: 1.5,
-                                                ),
-                                                onPressed: () {
-                                                    setState(() {
-                                                        debugPrint("Delete button clicked");
-                                                        _delete();
-                                                    });
-                                                },
-                                            ),
-                                        )
-                                    ],
+                                    ),
                                 ),
-                            )
-                        ],
+
+                                // Third element.
+                                Padding(
+                                    padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+                                    child: TextFormField(
+                                        controller: descriptionController,
+                                        style: textStyle,
+                                        onChanged: (value) {
+                                            debugPrint('Something changed in Description Text Field');
+                                            updateDescription();
+                                        },
+                                        decoration: InputDecoration(
+                                            labelText: 'Description',
+                                            labelStyle: textStyle,
+                                            border: OutlineInputBorder(
+                                                borderRadius: BorderRadius.circular(5.0),
+                                            )
+                                        ),
+                                    ),
+                                ),
+
+                                // Fourth element.
+                                Padding(
+                                    padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+                                    child: Row(
+                                        children: <Widget>[
+                                            Expanded(
+                                                child: RaisedButton(
+                                                    color: Theme.of(context).primaryColorDark,
+                                                    textColor: Theme.of(context).primaryColorLight,
+                                                    child: Text(
+                                                        'Save',
+                                                        textScaleFactor: 1.5,
+                                                    ),
+                                                    onPressed: () {
+
+                                                        setState(() {
+                                                            if(_formKey.currentState.validate()) {
+                                                                debugPrint("Save button clicked");
+                                                                _save();
+                                                            }
+                                                        });
+                                                    },
+                                                ),
+                                            ),
+
+                                            Container(width: 5.0,),
+
+                                            Expanded(
+                                                child: RaisedButton(
+                                                    color: Theme.of(context).primaryColorDark,
+                                                    textColor: Theme.of(context).primaryColorLight,
+                                                    child: Text(
+                                                        'Delete',
+                                                        textScaleFactor: 1.5,
+                                                    ),
+                                                    onPressed: () {
+                                                        setState(() {
+                                                            debugPrint("Delete button clicked");
+                                                            _delete();
+                                                        });
+                                                    },
+                                                ),
+                                            )
+                                        ],
+                                    ),
+                                )
+                            ],
+                        ),
                     ),
                 ),
             ),
