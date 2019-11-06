@@ -1,2 +1,5 @@
 Resource links:
-  - https://pub.dev/packages/sembast
+  - https://pub.dev/packages/sembast    # Pub doc
+  - https://github.com/tekartik/sembast.dart/blob/master/sembast/doc/writes.md    # Writing data
+  - https://github.com/tekartik/sembast.dart/blob/master/sembast/doc/queries.md   # Read data
+  - https://github.com/tekartik/sembast.dart/tree/master/sembast/doc              # All together
