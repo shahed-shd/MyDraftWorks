@@ -1,0 +1,3 @@
+name: sembast_test_proj
+dependencies:
+  sembast: ^2.1.0+1
