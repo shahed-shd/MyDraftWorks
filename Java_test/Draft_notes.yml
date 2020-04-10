@@ -3,3 +3,10 @@ Resource links:
 
 Notes:
     - Assertions are disabled by default, so one must run the program with the -ea argument in order for assertions to be enabled (java -ea [name of compiled program])
+    - Parameter passing to method:
+        - The primitive types are passed in by value. There is no more link between the value inside the method and the source variable.
+        - An object reference is the link between a variable name and an instance of object.
+        - The object references are passed by value:
+            - There is no more link between the reference inside the method and the source reference
+            - The source object itself and the object itself inside the method are still the same.
+
