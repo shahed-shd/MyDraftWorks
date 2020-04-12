@@ -10,3 +10,4 @@ Notes:
         - The object references are passed by value:
             - There is no more link between the reference inside the method and the source reference
             - The source object itself and the object itself inside the method are still the same.
+    - StringBuilder is faster but not thread-safe, StringBuffer is slower than StringBuilder but thread-safe.
