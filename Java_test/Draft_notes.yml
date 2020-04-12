@@ -1,5 +1,6 @@
 Resource links:
     - https://en.wikibooks.org/wiki/Java_Programming
+    - https://howtodoinjava.com/java/
 
 Notes:
     - Assertions are disabled by default, so one must run the program with the -ea argument in order for assertions to be enabled (java -ea [name of compiled program])
