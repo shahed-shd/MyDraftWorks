@@ -12,3 +12,12 @@ Notes:
             - There is no more link between the reference inside the method and the source reference
             - The source object itself and the object itself inside the method are still the same.
     - StringBuilder is faster but not thread-safe, StringBuffer is slower than StringBuilder but thread-safe.
+    - We can assign the created object reference to:
+        - the class
+        - super class
+        - an interface the class implements    
+    - Casts can occur in three ways:
+        - Up-casting going up in the inheritance tree, until we reach the Object
+        - Up-casting to an interface the class implements
+        - Down-casting until we reach the class the object was created from
+        
