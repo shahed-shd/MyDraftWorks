@@ -2,6 +2,7 @@ Resource links:
     - https://en.wikibooks.org/wiki/Java_Programming
     - https://en.wikibooks.org/wiki/Java_Programming/Reflection/Overview
     - https://howtodoinjava.com/java/
+    - https://winterbe.com/posts/2015/04/07/java8-concurrency-tutorial-thread-executor-examples/
 
 Notes:
     - Assertions are disabled by default, so one must run the program with the -ea argument in order for assertions to be enabled (java -ea [name of compiled program])
