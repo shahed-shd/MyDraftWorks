@@ -3,6 +3,7 @@ Resource links:
     - https://en.wikibooks.org/wiki/Java_Programming/Reflection/Overview
     - https://howtodoinjava.com/java/
     - https://winterbe.com/posts/2015/04/07/java8-concurrency-tutorial-thread-executor-examples/
+    - http://www.angelikalanger.com/Articles/JavaSolutions/SecretsOfEquals/Equals.html
 
 Notes:
     - Assertions are disabled by default, so one must run the program with the -ea argument in order for assertions to be enabled (java -ea [name of compiled program])
@@ -22,4 +23,9 @@ Notes:
         - Up-casting going up in the inheritance tree, until we reach the Object
         - Up-casting to an interface the class implements
         - Down-casting until we reach the class the object was created from
-        
+    - The equals method implements an equivalence relation:
+        - It is reflexive: for any reference value x, x.equals(x) should return true.
+        - It is symmetric: for any reference values x and y, x.equals(y) should return true if and only if y.equals(x) returns true.
+        - It is transitive: for any reference values x, y, and z, if x.equals(y) returns true and y.equals(z) returns true, then x.equals(z) should return true.
+        - It is consistent: for any reference values x and y, multiple invocations of x.equals(y) consistently return true or consistently return false, provided no information used in equals comparisons on the object is modified.
+        - For any non-null reference value x, x.equals(null) should return false.
