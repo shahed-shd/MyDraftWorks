@@ -4,6 +4,7 @@ Resource links:
     - https://howtodoinjava.com/java/
     - https://winterbe.com/posts/2015/04/07/java8-concurrency-tutorial-thread-executor-examples/
     - http://www.angelikalanger.com/Articles/JavaSolutions/SecretsOfEquals/Equals.html
+    - https://ubiquity.acm.org/article.cfm?id=1071915
 
 Notes:
     - Assertions are disabled by default, so one must run the program with the -ea argument in order for assertions to be enabled (java -ea [name of compiled program])
