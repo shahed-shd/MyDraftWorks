@@ -1,4 +1,4 @@
-The tasks to do are in "REST API Test.md" file.
+The tasks to do are in "rest_api_tasks.md" file.
 
 Need to create a database in mysql.
 Then in "model.py", to connect the database, change the line:

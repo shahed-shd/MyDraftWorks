@@ -1,3 +1,0 @@
-# Related links:
-Wiki: https://en.wikipedia.org/wiki/YAML
-Site: http://yaml.org

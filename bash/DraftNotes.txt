@@ -1,3 +1,0 @@
-# Variables:
-${variable:-word}   # If variable is set then the result will be that value, otherwise word will be the result.
-${variable:+word}   # If variable is set then the result will be worde, otherwise the result is the empty string.

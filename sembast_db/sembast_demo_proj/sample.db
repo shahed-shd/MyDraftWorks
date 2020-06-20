@@ -1,0 +1,9 @@
+{"version":1,"sembast":1}
+{"key":"title","value":"Simple application"}
+{"key":"settings","value":{"offline":true}}
+{"key":"username","value":"my_username"}
+{"key":"url","value":"my_url"}
+{"key":1,"store":"animals","value":{"name":"fish"}}
+{"key":2,"store":"animals","value":{"name":"cat"}}
+{"key":3,"store":"animals","value":{"name":"fish"}}
+{"key":4,"store":"animals","value":{"name":"cat"}}

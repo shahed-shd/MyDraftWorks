@@ -1,0 +1,24 @@
+prefix: Ctrl + b
+
+panes:
+    - split vertically:         prefix + %
+    - split horizontally:       prefix + \"
+    - navigating panes:	        prefix + arrowKeys
+    - toggle pane fullscreen:   prefix + z
+    - resize pane in direction: prefix + ctrl + arrowKey
+windows:
+    - new window:               prefix + c
+    - previous window:	        prefix + p
+    - next window:              prefix + n
+    - numbered window:	        prefix + windowNumber
+    - rename current window:    prefix + ,
+    - close window:             prefix + &
+session:
+    - detach current session:   prefix + d
+    - detach chosen session:    prefix + D
+    - list running sessions:    tmux ls
+    - attach session:           tmux attach -t sessionNumberOrName
+    - new named session:        tmux new -s sessionName
+    - rename session:           tmux rename-session -t oldNameOrSessionNumber newName
+others:
+    - command list:             prefix + ?
