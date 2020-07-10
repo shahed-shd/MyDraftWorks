@@ -15,7 +15,10 @@ Notes:
         - The object references are passed by value:
             - There is no more link between the reference inside the method and the source reference
             - The source object itself and the object itself inside the method are still the same.
-    - StringBuilder is faster but not thread-safe, StringBuffer is slower than StringBuilder but thread-safe.
+    - String:
+        - Strings are immutable. Whenever it looks as if a String object was modified, actually a new String object was created.
+        - Strings are stored in a place in memory called the String Constant Pool. If the 'new' keyword is not explicitly used when creating the String it checks to see if it already exists in the Pool and uses the existing one. If it does not exist, a new Object is created.
+        - StringBuilder is faster but not thread-safe, StringBuffer is slower than StringBuilder but thread-safe.
     - We can assign the created object reference to:
         - the class
         - super class
