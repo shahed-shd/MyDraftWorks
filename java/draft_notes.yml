@@ -8,7 +8,17 @@ Resource links:
 
 Notes:
     - Assertions are disabled by default, so one must run the program with the -ea argument in order for assertions to be enabled (java -ea [name of compiled program])
-    - If no constructor is defined in a class, the compiler will create a default so called 'empty constructor' automatically.
+    - Primitive types:
+        - boolean, byte, char, short, int, long, float, double
+        - Can't be inherited.
+        - Can't be instantiated.
+        - Only its value is stored in memory.
+        - The allocated space is fixed.
+        - Don't have methods callable on them.
+    - Class and objects:
+        - Along with its value, also a reference to the instance can be stored in memory.
+        - The allocated space can vary, for instance either the object is instantiated or not.
+        - If no constructor is defined in a class, the compiler will create a default so called 'empty constructor' automatically.
     - Parameter passing to method:
         - The primitive types are passed in by value. There is no more link between the value inside the method and the source variable.
         - An object reference is the link between a variable name and an instance of object.
