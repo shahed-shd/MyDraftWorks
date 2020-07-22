@@ -43,3 +43,7 @@ Notes:
         - It is transitive: for any reference values x, y, and z, if x.equals(y) returns true and y.equals(z) returns true, then x.equals(z) should return true.
         - It is consistent: for any reference values x and y, multiple invocations of x.equals(y) consistently return true or consistently return false, provided no information used in equals comparisons on the object is modified.
         - For any non-null reference value x, x.equals(null) should return false.
+    - Packages:
+        - If no package is declared for a class, its package is the default package.
+        - The java.lang package is implicitly imported in all classes.
+        - A package name should start with a lower character.
