@@ -22,6 +22,19 @@ public class SerializableDemo {
             this.age = age;
             this.secretToken = secretToken;
         }
+
+        // Classes that require special handling during the serialization and deserialization process must implement special methods with some given exact signatures.
+        // writeObject(), readObject() are some of special methods and can be omitted to have default behavior.
+
+        private void writeObject(java.io.ObjectOutputStream out) throws IOException {
+            printStream.println("Person.writeObject() invoked");
+            out.defaultWriteObject();
+        }
+
+        private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
+            printStream.println("Person.readObject() invoked");
+            in.defaultReadObject();
+        }
     }
 
     public static void main(final String[] args) {
