@@ -15,10 +15,13 @@ Notes:
         - Only its value is stored in memory.
         - The allocated space is fixed.
         - Don't have methods callable on them.
-    - Class and objects:
-        - Along with its value, also a reference to the instance can be stored in memory.
+    - Class and object:
+        - Along with object's (class's instance) value, also a reference to the instance can be stored in memory.
         - The allocated space can vary, for instance either the object is instantiated or not.
+        - In Java, a class can only inherit from one class.
         - If no constructor is defined in a class, the compiler will create a default so called 'empty constructor' automatically.
+        - A constructor can't be abstract, final, native, static, strictfp nor synchronized.
+        - If there is no explicit call to super(...), then the default superclass constructor super(); is called before the body of the constructor is executed.
     - Parameter passing to method:
         - The primitive types are passed in by value. There is no more link between the value inside the method and the source variable.
         - An object reference is the link between a variable name and an instance of object.
