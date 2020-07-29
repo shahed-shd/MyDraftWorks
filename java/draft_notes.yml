@@ -22,6 +22,10 @@ Notes:
         - If no constructor is defined in a class, the compiler will create a default so called 'empty constructor' automatically.
         - A constructor can't be abstract, final, native, static, strictfp nor synchronized.
         - If there is no explicit call to super(...), then the default superclass constructor super(); is called before the body of the constructor is executed.
+        - After constructor overloading, a constructor can be called within the body of other constructor of the same class using 'this' keyword. This call must be the first statement in constructor.
+        - If a class declares two public methods with the same name by method overloading, and a subclass overrides one of them, the subclass still inherits the other method. In this respect, the Java differs from C++.
+        - In method overriding, the visibility of the new method that overrides the super class method can not be reduced but can be increased.
+        - An overridden method must throw the same exceptions as the super class, or their subexceptions.
     - Interface:
         - A field is always a constant. That is, it is always public, static and final, even if you do not mention it.
         - A method must be public and abstract, but it is not required to write the public and abstract keywords.
