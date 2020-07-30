@@ -27,6 +27,9 @@ Notes:
         - If a class declares two public methods with the same name by method overloading, and a subclass overrides one of them, the subclass still inherits the other method. In this respect, the Java differs from C++.
         - In method overriding, the visibility of the new method that overrides the super class method can not be reduced but can be increased.
         - An overridden method must throw the same exceptions as the super class, or their subexceptions.
+        - When a type that is defined with generic (for example, Collection<T>) is not used with generics (for example, Collection) is called a 'raw type'.
+        - For generic type defined for just a method, the actual type will be defined by the type of the method parameter. Hence, the generic type can't be defined only for the return value as it wouldn't be resolved.
+        - The generic type information is erased during compilation. Generic type parameters are replaced with their bounds or Object if the type parameters are unbounded. The produced bytecode, therefore, contains only ordinary classes, interfaces, and methods. The compiler inserts type casts if necessary to preserve type safety. The compiler generates bridge methods to preserve polymorphism in extended generic types.
     - Interface:
         - A field is always a constant. That is, it is always public, static and final, even if you do not mention it.
         - A method must be public and abstract, but it is not required to write the public and abstract keywords.
