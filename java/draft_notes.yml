@@ -23,6 +23,7 @@ Notes:
         - A constructor can't be abstract, final, native, static, strictfp nor synchronized.
         - If there is no explicit call to super(...), then the default superclass constructor super(); is called before the body of the constructor is executed.
         - After constructor overloading, a constructor can be called within the body of other constructor of the same class using 'this' keyword. This call must be the first statement in constructor.
+        - Object cloning using clone() method is much faster than creating objects using the 'new' keyword and copying each variable.
         - If a class declares two public methods with the same name by method overloading, and a subclass overrides one of them, the subclass still inherits the other method. In this respect, the Java differs from C++.
         - In method overriding, the visibility of the new method that overrides the super class method can not be reduced but can be increased.
         - An overridden method must throw the same exceptions as the super class, or their subexceptions.
