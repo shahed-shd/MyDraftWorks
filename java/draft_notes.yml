@@ -15,6 +15,16 @@ Notes:
         - Only its value is stored in memory.
         - The allocated space is fixed.
         - Don't have methods callable on them.
+    - Array element type encoding:
+        - boolean: Z
+        - byte: B
+        - char: C
+        - class or interface: Lclassname;
+        - double: D
+        - float: F
+        - int: I
+        - long: J
+        - short: S
     - Class and object:
         - Along with object's (class's instance) value, also a reference to the instance can be stored in memory.
         - The allocated space can vary, for instance either the object is instantiated or not.
