@@ -72,3 +72,12 @@ Notes:
         - If no package is declared for a class, its package is the default package.
         - The java.lang package is implicitly imported in all classes.
         - A package name should start with a lower character.
+    - Errors and exceptions:
+        - Throwable: Contains a snapshot of the execution stack of its thread at the time it was created.
+        - Error: An Error is a subclass of Throwable that indicates serious problems that a reasonable application should not try to catch. Most such errors are abnormal conditions.
+        - Exception: Subclass of Throwable, these are checked exceptions and must be caught somewhere in code, otherwise, it won't compile.
+        - RuntimeException: Subclass of Exception, but these are unchecked exceptions, the calling method is under no obligation to handle it. The compiler does not force to handle it.
+        - The catch block order is important. A thrown object may match several catch block but only the first catch block that matches (thrown object is same or subtype) the object will be executed.
+        - An overriding method can declare the same exceptions, subclasses or no exceptions.
+        - The implementation should throw the declared exception or it's sub-type or no exception.
+        - Prior to Java 1.8, the implementer must declare same exception or its subclass.
