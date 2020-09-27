@@ -29,7 +29,8 @@ public class FastScannerDemo {
         out.append(nextLineValue);
         out.append("\n");
         out.append(readLineValue);
-
+        
+        sc.close();
         out.flush();
         out.close();
     }
@@ -92,4 +93,11 @@ class FastScanner {
         return Double.parseDouble(nextToken());
     }
 
+    public void close() {
+        try {
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
