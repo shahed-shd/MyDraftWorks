@@ -1,0 +1,22 @@
+ref_links:
+  - https://json-schema.org
+
+cli_validators:
+  - yajsv:
+    - CLI tool (based on https://github.com/xeipuuv/gojsonschema)
+    - Golang implementation
+    - https://github.com/neilpa/yajsv
+  - jsonschema:
+    - Library for programming
+    - CLI tool
+    - Python implementation
+    - https://github.com/Julian/jsonschema
+  - ajv-cli:
+    - CLI tool (based on https://github.com/epoberezkin/ajv)
+    - Typescript implementation
+    - https://github.com/ajv-validator/ajv-cli
+  - justify:
+    - Library for programming
+    - CLI tool
+    - Java implementation
+    - https://github.com/leadpony/justify
