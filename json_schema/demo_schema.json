@@ -1,0 +1,13 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "http://yourdomain.com/schemas/demo_instance.json",
+    "type": "object",
+    "properties": {
+        "key_for_str": {
+            "type": "string"
+        },
+        "key_for_num": {
+            "type": "number"
+        }
+    }
+}
