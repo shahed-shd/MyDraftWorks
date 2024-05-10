@@ -1,0 +1,22 @@
+{
+  "configs": [
+    {
+      "url_path": "/hello",
+      "http_method": "GET",
+      "response_body": {
+        "result": "hello GET",
+        "message": "I am from mocker"
+      },
+      "status_code": 200
+    },
+    {
+      "url_path": "/hello",
+      "http_method": "POST",
+      "response_body": {
+        "result": "hello POST",
+        "message": "I am from mocker"
+      },
+      "status_code": 200
+    }
+  ]
+}
