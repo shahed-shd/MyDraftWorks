@@ -1,0 +1,70 @@
+components:
+  - node:
+    - for worker node:
+      - container runtime
+      - kubelet
+      - kube proxy
+    - for master node:
+      - ApiServer:
+        - as cluster gateway
+      - Scheduler:
+        - decides on which node a new Pod should be scheduled by resource calculation
+        - makes requests to corresponding Kubelet
+      - Controller Manager:
+        - detect state changes, like pod dies
+        - recover the state changes, like requests the Scheduler
+      - etcd:
+        - key-value store for cluster
+        - as cluster brain
+        - holds current status of any component
+        - data is stored somewhere else, not in etcd
+  - pod:
+    - abstraction of container
+    - usually 1 container
+  - service:
+    - persistent IP for pods
+    - load balancer
+    - 2 types:
+      - external
+      - internal
+  - ingress:
+    - routes traffic into cluster
+  - ConfigMap
+  - secrets:
+    - like ConfigMap but maintain privacy
+  - volume:
+    - local
+    - remote
+  - deployment:
+    - for stateless apps
+    - blueprint of pods
+    - abstraction of pods
+  - StatefulSet:
+    - for stateful apps or DB
+  - namespace:
+    - logical grouping of resources
+    - avoid naming conflicts and unintentional overriding
+    - resource sharing for blue/green deployment
+    - access and resource limits
+    - Some resources like ConfigMap, Secret are inaccessible from another namespace
+    - Services can be accessible commonly from different namespaces
+    - Volume, Node live globally without isolation
+    - can be assign a namespace by:
+      - mention in configuration file in `namespace` key under `metadata`
+      - pass `--namespace=<namespace-name` option to `kubectl apply` command
+    - change active namespace:
+      - by `kubens` which is available in `kubectx`. For Mac, `brew install kubectx`.
+      - Command `kubens` lists all namespaces and highligh the active one
+      - Command `kubens <namespace-name>` changes active namespace
+cluseter:
+  - multiple master and worker nodes
+minikube:
+  - open source
+  - for local setup
+  - creates virtual box and runs node in virtual box
+  - 1 node k8s cluster. master processes and worker processes run in single node
+component config file:
+  - 3 parts:
+    - metadata
+    - spec (specific to `kind`)
+    - status (automatically generated and added)
