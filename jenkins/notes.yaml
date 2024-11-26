@@ -1,0 +1,57 @@
+- docker image run:
+  - docker run -p 8080:8080 -p 50000:50000 -d -v jenkins_home:/var/jenkins_home jenkins/jenkins:lts
+- Jenkins project types:
+  - freestyle:
+    - simple, single tasks
+    - e.g. run tests
+  - pipeline:
+    - whole delivery cycle
+    - e.g. test | build | ...
+    - for a single branch
+  - multibranch pipeline:
+    - like pipeline, for multiple branches
+    - of the same repository
+- credential scopes:
+  - system: Only available for Jenkins server, not for Jenkins jobs
+  - global: Everywhere accessible
+  - project: Limited to project, only with multibranch pipeline
+- pipeline syntax:
+  - scripted:
+    - groovy engine
+    - advanced scripting capability, high flexibility
+  - declarative:
+    - recent addition
+    - easier to get started but not that powerful
+    - predefined structure:
+      - pipeline:
+        - must be top level
+      - agent:
+          - where to execute
+          - like a node or executor on that node
+      - environment:
+        - for custom environment variables
+      - stages:
+          - contain multiple stages
+          - stage (build, test, deploy etc):
+            - when:
+              - expression:
+                - Boolean expression for condtion
+            - steps:
+              - can run `echo` to print a message/log
+              - script:
+                - to run script with groovy expressions
+      - post:
+        - Execute some logic after all stages executed
+        - always
+        - success
+        - failure
+  - Environment variables in Jenkinsfile:
+    - Built-in ones can be found in URL path 'env-vars.html' of jenkins server
+    - Custome ones in 'environment' block of Jenkinsfile
+- 2 ways to trigger build:
+  - push notification:
+    - Version Control notifies Jenkins on new commit
+    - install Jenkins plugin depending on VCS
+    - configure repository server hostname, access token or credential
+  - pulling:
+    - Jenkins pulls in regular intervals
