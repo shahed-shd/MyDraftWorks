@@ -1,0 +1,49 @@
+pipeline {
+
+    agent any
+
+    environment {
+        CUSTOM_ENV_VAR = 'Sample value for custom env var'
+    }
+
+    stages {
+        stage('build') {
+            steps {
+                echo 'building the application...'
+                echo "Value for custom env var is ${CUSTOM_ENV_VAR}"
+                script {
+                    String test = 2 + 2 > 3 ? 'So cool' : 'Not cool'
+                    echo test
+                }
+            }
+        }
+
+        stage('test') {
+            when {
+                expression {
+                    BRANCH_NAME == 'dev' || BRANCH_NAME == 'master'
+                }
+            }
+            steps {
+                echo 'testing the application...'
+            }
+        }
+
+        stage('deploy') {
+            steps {
+                echo 'deploying the application...'
+            }
+        }
+    }
+    post {
+        always {
+
+        }
+        success {
+
+        }
+        failure {
+
+        }
+    }
+}
