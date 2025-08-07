@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package protogen.enums;
+
+// Enum definition
+enum Status {
+  UNKNOWN = 0;
+  ACTIVE = 1;
+  INACTIVE = 2;
+}

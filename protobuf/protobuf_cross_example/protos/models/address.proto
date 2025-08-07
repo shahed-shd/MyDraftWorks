@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package protogen.models;
+
+message Address {
+  string street = 1;
+  string city = 2;
+  string zip = 3;
+}

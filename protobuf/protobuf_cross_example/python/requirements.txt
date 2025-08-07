@@ -1,0 +1,16 @@
+betterproto==1.2.5
+black==25.1.0
+click==8.2.1
+grpclib==0.4.8
+h2==4.2.0
+hpack==4.1.0
+hyperframe==6.1.0
+Jinja2==3.1.6
+MarkupSafe==3.0.2
+multidict==6.6.3
+mypy_extensions==1.1.0
+packaging==25.0
+pathspec==0.12.1
+platformdirs==4.3.8
+protobuf==6.32.0
+stringcase==1.2.0
