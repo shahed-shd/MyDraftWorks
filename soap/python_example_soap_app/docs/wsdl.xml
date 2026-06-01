@@ -1,0 +1,105 @@
+<wsdl:definitions xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:plink="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+    xmlns:wsdlsoap11="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:wsdlsoap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:soap11enc="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:soap11env="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:soap12env="http://www.w3.org/2003/05/soap-envelope"
+    xmlns:soap12enc="http://www.w3.org/2003/05/soap-encoding"
+    xmlns:wsa="http://schemas.xmlsoap.org/ws/2003/03/addressing"
+    xmlns:xop="http://www.w3.org/2004/08/xop/include"
+    xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:tns="http://example.com/weather"
+    targetNamespace="http://example.com/weather" name="Application">
+    <wsdl:types>
+        <xs:schema targetNamespace="http://example.com/weather" elementFormDefault="qualified">
+            <xs:complexType name="WeatherInfo">
+                <xs:sequence>
+                    <xs:element name="city" type="xs:string" minOccurs="0" nillable="true" />
+                    <xs:element name="temperature" type="xs:integer" minOccurs="0" nillable="true" />
+                    <xs:element name="condition" type="xs:string" minOccurs="0" nillable="true" />
+                    <xs:element name="humidity" type="xs:integer" minOccurs="0" nillable="true" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="get_weather">
+                <xs:sequence>
+                    <xs:element name="city" type="xs:string" minOccurs="0" nillable="true" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="update_temperature">
+                <xs:sequence>
+                    <xs:element name="city" type="xs:string" minOccurs="0" nillable="true" />
+                    <xs:element name="new_temp" type="xs:integer" minOccurs="0" nillable="true" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="update_temperatureResponse">
+                <xs:sequence>
+                    <xs:element name="update_temperatureResult" type="xs:string" minOccurs="0"
+                        nillable="true" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="get_weatherResponse">
+                <xs:sequence>
+                    <xs:element name="get_weatherResult" type="tns:WeatherInfo" minOccurs="0"
+                        nillable="true" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:element name="WeatherInfo" type="tns:WeatherInfo" />
+            <xs:element name="get_weather" type="tns:get_weather" />
+            <xs:element name="update_temperature" type="tns:update_temperature" />
+            <xs:element name="update_temperatureResponse" type="tns:update_temperatureResponse" />
+            <xs:element name="get_weatherResponse" type="tns:get_weatherResponse" />
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="get_weather">
+        <wsdl:part name="get_weather" element="tns:get_weather" />
+    </wsdl:message>
+    <wsdl:message name="get_weatherResponse">
+        <wsdl:part name="get_weatherResponse" element="tns:get_weatherResponse" />
+    </wsdl:message>
+    <wsdl:message name="update_temperature">
+        <wsdl:part name="update_temperature" element="tns:update_temperature" />
+    </wsdl:message>
+    <wsdl:message name="update_temperatureResponse">
+        <wsdl:part name="update_temperatureResponse" element="tns:update_temperatureResponse" />
+    </wsdl:message>
+    <wsdl:service name="WeatherService">
+        <wsdl:port name="Application" binding="tns:Application">
+            <wsdlsoap11:address location="http://127.0.0.1:8000/" />
+        </wsdl:port>
+    </wsdl:service>
+    <wsdl:portType name="Application">
+        <wsdl:operation name="get_weather" parameterOrder="get_weather">
+            <wsdl:documentation>Get weather information for a city</wsdl:documentation>
+            <wsdl:input name="get_weather" message="tns:get_weather" />
+            <wsdl:output name="get_weatherResponse" message="tns:get_weatherResponse" />
+        </wsdl:operation>
+        <wsdl:operation name="update_temperature" parameterOrder="update_temperature">
+            <wsdl:documentation>Simulate updating temperature</wsdl:documentation>
+            <wsdl:input name="update_temperature" message="tns:update_temperature" />
+            <wsdl:output name="update_temperatureResponse" message="tns:update_temperatureResponse" />
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="Application" type="tns:Application">
+        <wsdlsoap11:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+        <wsdl:operation name="get_weather">
+            <wsdlsoap11:operation soapAction="get_weather" style="document" />
+            <wsdl:input name="get_weather">
+                <wsdlsoap11:body use="literal" />
+            </wsdl:input>
+            <wsdl:output name="get_weatherResponse">
+                <wsdlsoap11:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="update_temperature">
+            <wsdlsoap11:operation soapAction="update_temperature" style="document" />
+            <wsdl:input name="update_temperature">
+                <wsdlsoap11:body use="literal" />
+            </wsdl:input>
+            <wsdl:output name="update_temperatureResponse">
+                <wsdlsoap11:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+</wsdl:definitions>

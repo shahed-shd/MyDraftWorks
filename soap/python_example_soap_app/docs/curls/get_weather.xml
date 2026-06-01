@@ -1,0 +1,8 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:tns="http://example.com/weather">
+    <soap:Body>
+        <tns:get_weather>
+            <tns:city>London</tns:city>
+        </tns:get_weather>
+    </soap:Body>
+</soap:Envelope>
