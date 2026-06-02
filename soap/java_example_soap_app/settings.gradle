@@ -1,0 +1,4 @@
+rootProject.name = 'java_example_soap_app'
+
+include 'soap-server'
+include 'soap-client'

@@ -1,0 +1,57 @@
+plugins {
+    id 'org.springframework.boot' version '3.3.4'
+    id 'io.spring.dependency-management' version '1.1.6'
+    id 'java'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.ws:spring-ws-core:4.0.0'
+    
+    implementation 'org.glassfish.jaxb:jaxb-runtime:4.0.5'
+    implementation 'com.sun.xml.bind:jaxb-impl:4.0.5'
+    implementation 'com.sun.xml.bind:jaxb-xjc:4.0.5'
+    
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+// ====================== JAXB Generation ======================
+
+tasks.register('generateJaxb', JavaExec) {
+    group = 'build'
+    description = 'Generate Java classes from XSD'
+
+    mainClass = 'com.sun.tools.xjc.XJCFacade'   // Working version for you
+    
+    classpath = configurations.runtimeClasspath
+    
+    args = [
+        '-d', 'src/main/java',
+        '-p', 'com.example.soapweather.model',
+        '-quiet',
+        'src/main/resources/weather.xsd'
+    ]
+
+    doFirst {
+        file('src/main/java/com/example/soapweather/model').mkdirs()
+    }
+}
+
+tasks.compileJava.dependsOn generateJaxb
+
+tasks.named('bootJar') {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
