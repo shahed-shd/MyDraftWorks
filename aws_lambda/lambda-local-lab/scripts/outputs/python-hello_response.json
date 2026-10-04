@@ -1,0 +1,1 @@
+{"success": true, "message": "Hello from Python Lambda", "received_event": {"name": "Shahed", "source": "cli"}, "timestamp": "2026-10-26T14:52:58.875379+00:00"}

@@ -1,0 +1,33 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.amazonaws:aws-lambda-java-core:1.2.3'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.17.3'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+tasks.register('buildZip', Zip) {
+    dependsOn tasks.named('jar')
+
+    archiveFileName = 'lambda-java.zip'
+
+    from sourceSets.main.output
+
+    into('lib') {
+        from configurations.runtimeClasspath
+    }
+}
+
+tasks.named('build') {
+    dependsOn tasks.named('buildZip')
+}

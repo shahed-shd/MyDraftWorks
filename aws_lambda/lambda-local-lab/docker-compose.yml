@@ -1,0 +1,19 @@
+services:
+
+  localstack:
+    # image: localstack/localstack:latest
+    image: localstack/localstack:4.4.0
+    container_name: lambda-localstack
+
+    ports:
+      - "4566:4566"
+
+    environment:
+      # - LOCALSTACK_AUTH_TOKEN=${LOCALSTACK_AUTH_TOKEN}
+      - SERVICES=lambda,events,iam,logs,sts
+      - AWS_DEFAULT_REGION=ap-southeast-1
+      - DEBUG=0
+
+    volumes:
+      - "./localstack-data:/var/lib/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
